@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { CustomerGrid } from "./customersGrid";
 
 const Customers = () => {
   return (
     <div>
-      <p>Customers</p>
+      <h2>Anagrafica Clienti</h2>
+      <CustomerGrid />
     </div>
   );
 };

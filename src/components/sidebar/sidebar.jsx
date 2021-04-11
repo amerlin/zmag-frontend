@@ -9,22 +9,20 @@ const Sidebar = () => {
     <aside>
       <Navigation>
         <li>
-          <NavLink exact="true" to="/">
-            Home
-          </NavLink>
+          <NavLink to="/home">Home</NavLink>
         </li>
         <li>
-          <NavLink to="/customers">Clienti</NavLink>
+          <NavLink to="/customers">Anagrafica Clienti</NavLink>
         </li>
         <li>
-          <NavLink to="/products">Prodotti</NavLink>
+          <NavLink to="/products">Listino Prodotti</NavLink>
         </li>
         <li>
-          <NavLink to="/orders">Vendite</NavLink>
+          <NavLink to="/orders">Vendita</NavLink>
         </li>
-        <li>
-          <NavLink to="/tools">Ammistrazione</NavLink>
-        </li>
+        {/* <li>
+          <NavLink to="/tools">Amministrazione</NavLink>
+        </li> */}
       </Navigation>
     </aside>
   );
