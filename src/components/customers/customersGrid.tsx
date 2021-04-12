@@ -1,10 +1,12 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
+import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import { CustomerData, getCustomersAsync } from "../../Data/CustomerData";
 import { Spinner } from "react-bootstrap";
 
 export const CustomerGrid = () => {
+  const { SearchBar } = Search;
   const [customers, setCustomers] = React.useState<CustomerData[]>([]);
   const [customersLoading, setCustomersLoading] = React.useState(true);
 
@@ -22,11 +24,13 @@ export const CustomerGrid = () => {
       dataField: "an_descr1",
       text: "Ragione Sociale",
       editable: false,
+      searchable: true,
     },
     {
       dataField: "an_descr2",
       text: "Descrizione",
       editable: false,
+      searchable: true,
     },
     {
       dataField: "an_indir",
@@ -64,15 +68,31 @@ export const CustomerGrid = () => {
               <span className="sr-only">Loading...</span>
             </Spinner>
           ) : (
-            <BootstrapTable
+            <ToolkitProvider
               keyField="ar_codart"
               data={customers}
               columns={columns}
-              pagination={paginationFactory(option)}
-              striped
-              hover
-              condensed
-            />
+              search={{
+                searchFormatted: true,
+              }}
+            >
+              {(props) => (
+                <div>
+                  <SearchBar
+                    {...props.searchProps}
+                    placeholder="Cerca cliente"
+                  />
+                  <hr />
+                  <BootstrapTable
+                    {...props.baseProps}
+                    striped
+                    hover
+                    condensed
+                    pagination={paginationFactory(option)}
+                  />
+                </div>
+              )}
+            </ToolkitProvider>
           )}
         </div>
         <div className="col-md-4"></div>

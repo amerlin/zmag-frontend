@@ -1,5 +1,6 @@
 import React from "react";
 import BootstrapTable from "react-bootstrap-table-next";
+import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { ProductData, getProductsAsync } from "../../Data/ProductData";
 import { Spinner } from "react-bootstrap";
@@ -20,12 +21,20 @@ export const ProductGrid = () => {
   const columns = [
     {
       dataField: "ar_codart",
-      text: "Ragione Sociale",
+      text: "Codice Articolo",
+      editable: false,
+      searchable: true,
+    },
+    {
+      dataField: "ar_barcode",
+      text: "Barcode",
+      searchable: true,
       editable: false,
     },
     {
       dataField: "ar_descr",
       text: "Descrizione",
+      searchable: true,
       editable: false,
     },
     {
@@ -36,6 +45,7 @@ export const ProductGrid = () => {
   ];
 
   const option = {};
+  const { SearchBar } = Search;
 
   return (
     <div className="container">
@@ -49,15 +59,31 @@ export const ProductGrid = () => {
               <span className="sr-only">Loading...</span>
             </Spinner>
           ) : (
-            <BootstrapTable
+            <ToolkitProvider
               keyField="ar_codart"
               data={products}
               columns={columns}
-              pagination={paginationFactory(option)}
-              striped
-              hover
-              condensed
-            />
+              search={{
+                searchFormatted: true,
+              }}
+            >
+              {(props) => (
+                <div>
+                  <SearchBar
+                    {...props.searchProps}
+                    placeholder="Cerca prodotto"
+                  />
+                  <hr />
+                  <BootstrapTable
+                    {...props.baseProps}
+                    striped
+                    hover
+                    condensed
+                    pagination={paginationFactory(option)}
+                  />
+                </div>
+              )}
+            </ToolkitProvider>
           )}
         </div>
         <div className="col-md-4"></div>
