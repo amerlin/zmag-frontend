@@ -24,7 +24,7 @@ export const getCustomersAsync = async (): Promise<CustomerData[]> => {
 };
 
 //sistemare la mappatura
-export interface QuestionDataFromServer {
+export interface ProductDataFromServer {
   id: number;
   idErp: number;
   an_descr1: string;
@@ -37,7 +37,7 @@ export interface QuestionDataFromServer {
 }
 
 export const mapProductFromServer = (
-  customers: QuestionDataFromServer
+  customers: ProductDataFromServer
 ): CustomerData => ({
   ...customers,
 });
