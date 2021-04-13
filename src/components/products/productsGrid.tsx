@@ -58,12 +58,12 @@ export const ProductGrid = () => {
   const { SearchBar } = Search;
 
   return (
-    <div className="container">
+    <div className="container-fluid">
       <div className="row">
         <br />
       </div>
       <div className="row">
-        <div className="col-md-8">
+        <div className="col-md-12">
           {productsLoading ? (
             <Spinner animation="border" role="status">
               <span className="sr-only">Loading...</span>
@@ -96,7 +96,6 @@ export const ProductGrid = () => {
             </ToolkitProvider>
           )}
         </div>
-        <div className="col-md-4"></div>
       </div>
     </div>
   );

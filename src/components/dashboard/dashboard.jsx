@@ -1,26 +1,77 @@
-import React from "react";
-import { Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
+import ProductGrid from "../products/productsGrid";
 
 const DashBoard = () => {
+  const [smShow, setSmShow] = useState(false);
+  const [lgShow, setLgShow] = useState(false);
+
   return (
     <div>
       <h2>Nuova Vendita</h2>
-      <Button variant="primary">1) Selezionare il cliente</Button>&nbsp;
-      <p>
-        Una volta aperto il popup e selezionato il cliente, impostare i dati del
-        cliente selezionato in una serie di campi non modificabili
-      </p>
-      <p>FORM CON I DATI DEL CLIENTE</p>
-      <Button variant="primary">2) Aggiungi prodotto</Button>
-      <p>
-        Una volta aperto il popup e selezionato il prodotto con la quantità,
-        aggiungere i dati nella nella griglia
-      </p>
-      <p>GRIGLIA CON I PRODOTTI SELEZIONATI</p>
-      <Button variant="primary">
-        Salvataggio dell'ordine facendo una post
-      </Button>
-      &nbsp;
+      <div className="container-fluid">
+        <div className="col-md-12">
+          <hr />
+        </div>
+
+        <div className="row mt-20 ml-0 mt-4">
+          <Form.Group controlId="formBasicEmail" className="d-flex">
+            <fieldset className="mr-4">
+              <Form.Label>Ragione sociale</Form.Label>
+              <Form.Control type="text" placeholder="Ragione sociale" />
+            </fieldset>
+          </Form.Group>
+        </div>
+
+        <div className="row mt-20 ml-0 mt-4">
+          <Form.Group controlId="formBasicEmail" className="d-flex">
+            <fieldset className="mr-12">
+              <Form.Label>Ragione sociale</Form.Label>
+              <Form.Control type="text" placeholder="Ragione sociale" />
+            </fieldset>
+            <fieldset className="mr-4">
+              <Form.Label>Indirizzo</Form.Label>
+              <Form.Control type="text" placeholder="Indirizzo" />
+            </fieldset>
+            <fieldset className="mr-4">
+              <Form.Label>Città</Form.Label>
+              <Form.Control type="text" placeholder="Città" />
+            </fieldset>
+            <fieldset className="mr-4">
+              <Form.Label>C.A.P.</Form.Label>
+              <Form.Control type="text" placeholder="C.A.P." />
+            </fieldset>
+          </Form.Group>
+        </div>
+
+        <div className="row">
+          <div className="col-md-12">
+            <hr />
+          </div>
+        </div>
+        <div className="row>">
+          <Button onClick={() => setSmShow(true)} variant="light">
+            Aggiungi prodotto
+          </Button>
+        </div>
+      </div>
+
+      <Modal
+        size="xl"
+        show={smShow}
+        onHide={() => setSmShow(false)}
+        aria-labelledby="example-modal-sizes-title-sm"
+      >
+        <Modal.Header>
+          <Modal.Title id="example-modal-sizes-title-sm">
+            Ricerca Prodotti
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ProductGrid />
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

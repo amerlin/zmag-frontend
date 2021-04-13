@@ -13,5 +13,9 @@ export const SelectProductGrid = (props: Props) => {
     console.log("Current ar_price: " + row.ar_price);
   };
 
-  return <Button onClick={() => selectElement(props.row)}>Seleziona</Button>;
+  return (
+    <Button className="btn-sm" onClick={() => selectElement(props.row)}>
+      Seleziona
+    </Button>
+  );
 };

@@ -57,7 +57,7 @@ export const CustomerGrid = () => {
   const option = {};
 
   return (
-    <div className="container">
+    <div className="container-fluid">
       <div className="row">
         <br />
       </div>
