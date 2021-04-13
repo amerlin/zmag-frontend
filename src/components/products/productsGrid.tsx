@@ -4,6 +4,7 @@ import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { ProductData, getProductsAsync } from "../../Data/ProductData";
 import { Spinner } from "react-bootstrap";
+import { SelectProductGrid } from "./SelectProductGrid";
 
 export const ProductGrid = () => {
   const [products, setProducts] = React.useState<ProductData[]>([]);
@@ -41,6 +42,15 @@ export const ProductGrid = () => {
       dataField: "ar_price",
       text: "Prezzo (€)",
       classes: "demo-key-row",
+    },
+    {
+      dataField: "Action",
+      isDummyField: true,
+      text: "",
+      editable: false,
+      formatter: (cellContent: string, row: ProductData) => {
+        return <SelectProductGrid row={row} />;
+      },
     },
   ];
 
