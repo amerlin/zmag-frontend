@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Provider } from "react-redux";
 import Main from "./components/main/main";
 import Loader from "./components/loader/loader";
+import { configureStore } from "./Data/Store";
 import "./App.css";
+
+const store = configureStore();
 
 const App = () => {
   const [loading, setLoading] = useState(false);
@@ -15,9 +19,9 @@ const App = () => {
   }
 
   return (
-    <React.Fragment>
+    <Provider store={store}>
       <Main />
-    </React.Fragment>
+    </Provider>
   );
 };
 

@@ -2,9 +2,9 @@ import { Store, createStore, combineReducers } from "redux";
 import { ProductData } from "./ProductData";
 import { CustomerData } from "./CustomerData";
 
-//GeneralState
+//General State
 interface GeneralState {
-  readonly loading: boolean;
+  readonly ShowLoading: boolean;
   readonly showModalProduct: boolean;
   readonly showModalCustomer: boolean;
   readonly products: ProductData[];
@@ -15,7 +15,7 @@ interface GeneralState {
 
 //Initial
 const initialGeneralState: GeneralState = {
-  loading: false,
+  ShowLoading: false,
   products: [],
   customers: [],
   selectedProduct: null,
@@ -57,6 +57,34 @@ export const gotProductAction = (product: ProductData | null) =>
   ({
     type: GOTPRODUCT,
     product: product,
+    showModalProduct: false,
+  } as const);
+
+//MODAL PRODUCT STATE
+export const GETMODALPRODUCT = "GetModalProduction";
+export const getShowModalProductAction = () =>
+  ({
+    type: GETMODALPRODUCT,
+  } as const);
+
+export const GOTMODALPRODUCT = "GotModalProduction";
+export const gotShowModalProductAction = (status: boolean) =>
+  ({
+    type: GOTMODALPRODUCT,
+    showModalProduct: status,
+  } as const);
+
+export const GETMODALCUSTOMER = "GetModalCustomer";
+export const getShowModalCustomerAction = (status: boolean) =>
+  ({
+    type: GETMODALPRODUCT,
+  } as const);
+
+export const GOTMODALCUSTOMER = "GotModalCustomer";
+export const gotShowModalCustomerAction = (status: boolean) =>
+  ({
+    type: GOTMODALCUSTOMER,
+    showModalProduct: status,
   } as const);
 
 //Action type
@@ -64,7 +92,11 @@ type ZmagActions =
   | ReturnType<typeof gettingProductsAction>
   | ReturnType<typeof gotProductsAction>
   | ReturnType<typeof gettingProductAction>
-  | ReturnType<typeof gotProductAction>;
+  | ReturnType<typeof gotProductAction>
+  | ReturnType<typeof getShowModalProductAction>
+  | ReturnType<typeof gotShowModalProductAction>
+  | ReturnType<typeof getShowModalCustomerAction>
+  | ReturnType<typeof gotShowModalCustomerAction>;
 
 //Reducer
 const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
@@ -96,7 +128,19 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
         loading: false,
       };
     }
+    case GETMODALPRODUCT: {
+      return {
+        ...state,
+      };
+    }
+    case GOTMODALPRODUCT: {
+      return {
+        ...state,
+        showModalProduct: action.showModalProduct,
+      };
+    }
   }
+  return state;
 };
 
 //root creation

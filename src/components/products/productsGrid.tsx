@@ -5,18 +5,28 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import { ProductData, getProductsAsync } from "../../Data/ProductData";
 import { Spinner } from "react-bootstrap";
 import { SelectProductGrid } from "./SelectProductGrid";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../Data/Store";
 
 export const ProductGrid = () => {
   const [products, setProducts] = React.useState<ProductData[]>([]);
   const [productsLoading, setProductsLoading] = React.useState(true);
 
+  const dispatch = useDispatch();
+  const products1 = useSelector((state: AppState) => state.zmagState.products);
+  const customers = useSelector((state: AppState) => state.zmagState.customers);
+  const selectedProduct = useSelector(
+    (state: AppState) => state.zmagState.selectedProduct
+  );
+  const loading = useSelector((state: AppState) => state.zmagState.ShowLoading);
+
   React.useEffect(() => {
-    const getP = async () => {
+    const getProds = async () => {
       const prod = await getProductsAsync();
       setProducts(prod);
       setProductsLoading(false);
     };
-    getP();
+    getProds();
   }, []);
 
   const columns = [

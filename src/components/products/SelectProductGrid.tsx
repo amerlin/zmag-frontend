@@ -1,16 +1,18 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { ProductData } from "../../Data/ProductData";
+import { useDispatch } from "react-redux";
+import { gotProductAction, gotShowModalProductAction } from "../../Data/Store";
 
 interface Props {
   row: ProductData;
 }
 
 export const SelectProductGrid = (props: Props) => {
+  const dispatch = useDispatch();
   const selectElement = (row: ProductData) => {
-    console.log("Current ar_codart: " + row.ar_codart);
-    console.log("Current ar_descr: " + row.ar_descr);
-    console.log("Current ar_price: " + row.ar_price);
+    dispatch(gotProductAction(row));
+    dispatch(gotShowModalProductAction(false));
   };
 
   return (
