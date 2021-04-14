@@ -77,14 +77,14 @@ export const gotShowModalProductAction = (status: boolean) =>
 export const GETMODALCUSTOMER = "GetModalCustomer";
 export const getShowModalCustomerAction = (status: boolean) =>
   ({
-    type: GETMODALPRODUCT,
+    type: GETMODALCUSTOMER,
   } as const);
 
 export const GOTMODALCUSTOMER = "GotModalCustomer";
 export const gotShowModalCustomerAction = (status: boolean) =>
   ({
     type: GOTMODALCUSTOMER,
-    showModalProduct: status,
+    showModalCustomer: status,
   } as const);
 
 //Action type
@@ -137,6 +137,17 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
       return {
         ...state,
         showModalProduct: action.showModalProduct,
+      };
+    }
+    case GETMODALCUSTOMER: {
+      return {
+        ...state,
+      };
+    }
+    case GOTMODALCUSTOMER: {
+      return {
+        ...state,
+        showModalCustomer: action.showModalCustomer,
       };
     }
   }

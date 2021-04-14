@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import ProductGrid from "../products/productsGrid";
 import CustomerArea from "./CustomerArea";
-import DebugArticle from "./DebugArticle";
+import CustomerGrid from "../customers/customersGrid";
 import { useSelector, useDispatch } from "react-redux";
 import {
   AppState,
@@ -18,11 +18,20 @@ const DashBoard = () => {
     dispatch(gotShowModalCustomerAction(false));
   }, []);
 
+  //show product modal
   const SetShowProductModal = (visible) =>
     dispatch(gotShowModalProductAction(visible));
 
+  //show customers modal
+  const SetShowCustomerModal = (visible) =>
+    dispatch(gotShowModalCustomerAction(visible));
+
   const showProductModal = useSelector((state: AppState) => {
     return state.zmagState.showModalProduct;
+  });
+
+  const showCustomertModal = useSelector((state: AppState) => {
+    return state.zmagState.showModalCustomer;
   });
 
   return (
@@ -34,7 +43,10 @@ const DashBoard = () => {
           <Button variant="light" onClick={() => SetShowProductModal(true)}>
             Aggiungi prodotto
           </Button>
-          <DebugArticle />
+          {}
+          <Button variant="light" onClick={() => SetShowCustomerModal(true)}>
+            Aggiungi Cliente
+          </Button>
         </div>
       </div>
 
@@ -51,6 +63,22 @@ const DashBoard = () => {
         </Modal.Header>
         <Modal.Body>
           <ProductGrid />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        size="xl"
+        aria-labelledby="example-modal-sizes-title-sm"
+        show={showCustomertModal}
+        onHide={() => SetShowCustomerModal(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-modal-sizes-title-sm">
+            Ricerca Cliente
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <CustomerGrid />
         </Modal.Body>
       </Modal>
     </div>
