@@ -2,7 +2,6 @@ import { Store, createStore, combineReducers } from "redux";
 import { ProductData } from "./ProductData";
 import { CustomerData } from "./CustomerData";
 import { OrderData } from "./OrderData";
-import { AccordionToggle } from "react-bootstrap";
 
 //General State
 interface GeneralState {
@@ -132,6 +131,17 @@ export const gottingCurrentProductsGridAction = (
     product: product,
   } as const);
 
+export const GOTORDERTOTAL = "GotCurrentTotalsGrid";
+export const gottingCurrentTotalsGridAction = (
+  total: number,
+  totalWithVat: number
+) =>
+  ({
+    type: GOTORDERTOTAL,
+    currentProductsGridTotal: total,
+    currentProductsGridTotalWithVat: totalWithVat,
+  } as const);
+
 //Action type
 type ZmagActions =
   | ReturnType<typeof gettingProductsAction>
@@ -145,6 +155,7 @@ type ZmagActions =
   | ReturnType<typeof gettingCustomerAction>
   | ReturnType<typeof gettingCurrentProductsGridAction>
   | ReturnType<typeof gottingCurrentProductsGridAction>
+  | ReturnType<typeof gottingCurrentTotalsGridAction>
   | ReturnType<typeof gotShowModalCustomerAction>;
 
 //Reducer
@@ -234,6 +245,13 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
     case GETCURRENTPRODUCTSGRID: {
       return {
         ...state,
+      };
+    }
+    case GOTORDERTOTAL: {
+      return {
+        ...state,
+        currentProductsGridTotal: action.currentProductsGridTotal,
+        currentProductsGridTotalWithVat: action.currentProductsGridTotalWithVat,
       };
     }
   }

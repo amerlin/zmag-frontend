@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { AppState } from "../../Data/Store";
+import { AppStat, gottingCurrentTotalsGridAction } from "../../Data/Store";
 import BootstrapTable from "react-bootstrap-table-next";
 import { Button } from "react-bootstrap";
 
@@ -77,6 +77,7 @@ export const OrderGrid = () => {
 
   const cellEdit = cellEditFactory({
     mode: "click",
+    blurToSave: true,
     afterSaveCell: (
       oldValue: number,
       newValue: number,
@@ -87,6 +88,10 @@ export const OrderGrid = () => {
       row.ar_totalWithVat =
         row.ar_quant * row.ar_price +
         (row.ar_quant * row.ar_price * row.ar_ivaperc) / 100;
+
+      dispatch(
+        gottingCurrentTotalsGridAction(row.ar_total, row.ar_totalWithVat)
+      );
     },
   });
 
@@ -95,7 +100,7 @@ export const OrderGrid = () => {
       <div className="row">&nbsp;</div>
       <div className="row">
         <BootstrapTable
-          keyField="productId"
+          keyField="ar_codart"
           data={products}
           columns={columns}
           striped

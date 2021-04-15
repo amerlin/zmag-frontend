@@ -1,8 +1,8 @@
 import { http } from "../http";
 
 export interface CustomerData {
-  id: number;
-  idErp: number;
+  codditt: string;
+  an_conto: number;
   an_descr1: string;
   an_descr2: string;
   an_citta: string;
@@ -10,6 +10,8 @@ export interface CustomerData {
   an_prov: string;
   an_cap: string;
   an_pariva: string;
+  an_codfis: string;
+  an_tipo: string;
   isPrivateCustomer: boolean;
   isInBusiness: boolean;
 }
@@ -27,8 +29,8 @@ export const getCustomersAsync = async (): Promise<CustomerData[]> => {
 
 //sistemare la mappatura
 export interface ProductDataFromServer {
-  id: number;
-  idErp: number;
+  codditt: string;
+  an_conto: number;
   an_descr1: string;
   an_descr2: string;
   an_citta: string;
@@ -36,6 +38,8 @@ export interface ProductDataFromServer {
   an_prov: string;
   an_cap: string;
   an_pariva: string;
+  an_codfis: string;
+  an_tipo: string;
   isPrivateCustomer: boolean;
   isInBusiness: boolean;
 }

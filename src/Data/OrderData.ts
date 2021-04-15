@@ -5,29 +5,36 @@ export interface OrderData {
   year: number;
   note: string;
   total: number;
+  totalWithVat: number;
   customer: Customer;
   productsRow: ProductRow[];
 }
 export interface Customer {
   codditt: string;
   an_conto: number;
-  isInBusiness: boolean;
   an_descr1: string;
   an_descr2: string;
-  an_indir: string;
-  an_cap: string;
   an_citta: string;
+  an_indir: string;
   an_prov: string;
-  an_codfis: string;
+  an_cap: string;
   an_pariva: string;
+  an_codfis: string;
   an_tipo: string;
+  isPrivateCustomer: boolean;
+  isInBusiness: boolean;
 }
 export interface ProductRow {
   id: number;
-  codArt: string;
-  qta: number;
-  price: number;
-  total: number;
+  ar_codart: string;
+  ar_descr: string;
+  ar_price: number;
+  ar_barcode: string;
+  ar_quant: number;
+  ar_total: number;
+  ar_totalWithVat: number;
+  ar_ivaperc: number;
+  ar_sconto: number;
 }
 
 export const getOrdersAsync = async (): Promise<OrderData[]> => {
