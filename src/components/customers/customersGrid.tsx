@@ -3,6 +3,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import { CustomerData, getCustomersAsync } from "../../Data/CustomerData";
+import { SelectCustomerGrid } from "./SelectCustomerGrid";
 import { Spinner } from "react-bootstrap";
 
 export const CustomerGrid = () => {
@@ -51,6 +52,15 @@ export const CustomerGrid = () => {
       dataField: "an_cap",
       text: "C.A.P.",
       classes: "demo-key-row",
+    },
+    {
+      dataField: "Action",
+      isDummyField: true,
+      text: "",
+      editable: false,
+      formatter: (cellContent: string, row: CustomerData) => {
+        return <SelectCustomerGrid row={row} />;
+      },
     },
   ];
 

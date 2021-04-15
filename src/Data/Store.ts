@@ -60,6 +60,22 @@ export const gotProductAction = (product: ProductData | null) =>
     showModalProduct: false,
   } as const);
 
+//Get product
+export const GETTINGCUSTOMER = "GettingCustomer";
+export const gettingCustomerAction = () =>
+  ({
+    type: GETTINGCUSTOMER,
+  } as const);
+
+//Got product
+export const GOTCUSTOMER = "GotCustomer";
+export const gotCustomerAction = (customer: CustomerData | null) =>
+  ({
+    type: GOTCUSTOMER,
+    customer: customer,
+    showModalCustomer: false,
+  } as const);
+
 //MODAL PRODUCT STATE
 export const GETMODALPRODUCT = "GetModalProduction";
 export const getShowModalProductAction = () =>
@@ -74,6 +90,7 @@ export const gotShowModalProductAction = (status: boolean) =>
     showModalProduct: status,
   } as const);
 
+//MODAL CUSTOMER
 export const GETMODALCUSTOMER = "GetModalCustomer";
 export const getShowModalCustomerAction = (status: boolean) =>
   ({
@@ -96,6 +113,8 @@ type ZmagActions =
   | ReturnType<typeof getShowModalProductAction>
   | ReturnType<typeof gotShowModalProductAction>
   | ReturnType<typeof getShowModalCustomerAction>
+  | ReturnType<typeof gotCustomerAction>
+  | ReturnType<typeof gettingCustomerAction>
   | ReturnType<typeof gotShowModalCustomerAction>;
 
 //Reducer
@@ -148,6 +167,21 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
       return {
         ...state,
         showModalCustomer: action.showModalCustomer,
+      };
+    }
+    case GETTINGCUSTOMER: {
+      return {
+        ...state,
+        selectedCustomer: null,
+        loading: true,
+      };
+    }
+    case GOTCUSTOMER: {
+      return {
+        ...state,
+        selectedCustomer: action.customer,
+        showModalCustomer: false,
+        loading: false,
       };
     }
   }

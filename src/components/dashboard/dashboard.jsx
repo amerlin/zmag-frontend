@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import ProductGrid from "../products/productsGrid";
-import CustomerArea from "./CustomerArea";
+// import CustomerArea from "./CustomerArea";
 import CustomerGrid from "../customers/customersGrid";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -13,16 +13,11 @@ import {
 const DashBoard = () => {
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    dispatch(gotShowModalProductAction(false));
-    dispatch(gotShowModalCustomerAction(false));
-  }, []);
-
-  //show product modal
+  //show product modal - posso spostarlo direttamente nella griglia
   const SetShowProductModal = (visible) =>
     dispatch(gotShowModalProductAction(visible));
 
-  //show customers modal
+  //show customers modal - posso spostarlo direttamente nella griglia
   const SetShowCustomerModal = (visible) =>
     dispatch(gotShowModalCustomerAction(visible));
 
@@ -34,17 +29,27 @@ const DashBoard = () => {
     return state.zmagState.showModalCustomer;
   });
 
+  //current product
+  const product = useSelector((state: AppState) => {
+    console.log(state.zmagState.selectedProduct);
+    return state.zmagState.selectedProduct;
+  });
+
+  // //current customer
+  // const customer = useSelector((state: AppState) => {
+  //   return state.zmagState.selectedCustomer;
+  // });
+
   return (
     <div>
       <h2>Nuova Vendita: </h2>
       <div className="container-fluid">
-        <CustomerArea />
         <div className="row>">
-          <Button variant="light" onClick={() => SetShowProductModal(true)}>
+          <Button variant="primary" onClick={() => SetShowProductModal(true)}>
             Aggiungi prodotto
           </Button>
           {}
-          <Button variant="light" onClick={() => SetShowCustomerModal(true)}>
+          <Button variant="primary" onClick={() => SetShowCustomerModal(true)}>
             Aggiungi Cliente
           </Button>
         </div>
