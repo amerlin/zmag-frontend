@@ -14,6 +14,7 @@ interface GeneralState {
   readonly currentProductsGrid: ProductData[];
   readonly currentOrder: OrderData | null;
   readonly currentProductsGridTotal: number;
+  readonly currentProductsGridTotalWithVat: number;
   readonly selectedProduct: ProductData | null;
   readonly selectedCustomer: CustomerData | null;
   readonly enableProductGrid: boolean; //non usata
@@ -32,6 +33,7 @@ const initialGeneralState: GeneralState = {
   showModalCustomer: false,
   enableProductGrid: false,
   currentProductsGridTotal: 0,
+  currentProductsGridTotalWithVat: 0,
 };
 
 //AppState
@@ -216,11 +218,17 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
       //questa parte deve essere spostata nella logica
       action.product.ar_quant = 1;
       action.product.ar_total = 1 * action.product.ar_price;
+      action.product.ar_totalWithVat =
+        1 * action.product.ar_price +
+        (1 * action.product.ar_price * action.product.ar_ivaperc) / 100;
       var total = state.currentProductsGridTotal + action.product.ar_total;
+      var totalWithVat =
+        state.currentProductsGridTotalWithVat + action.product.ar_totalWithVat;
       return {
         ...state,
         currentProductsGrid: [...state.currentProductsGrid, action.product],
         currentProductsGridTotal: total,
+        currentProductsGridTotalWithVat: totalWithVat,
       };
     }
     case GETCURRENTPRODUCTSGRID: {

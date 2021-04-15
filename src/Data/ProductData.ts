@@ -9,6 +9,7 @@ export interface ProductData {
   ar_total: number;
   ar_totalWithVat: number;
   ar_ivaperc: number;
+  ar_sconto: number;
 }
 
 export const getProductsAsync = async (): Promise<ProductData[]> => {
@@ -31,6 +32,7 @@ export interface ProductDataFromServer {
   ar_total: number;
   ar_totalWithVat: number;
   ar_ivaperc: number;
+  ar_sconto: number;
 }
 
 export const mapProductFromServer = (

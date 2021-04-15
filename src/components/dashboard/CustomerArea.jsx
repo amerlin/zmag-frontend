@@ -29,6 +29,9 @@ const CustomerArea = () => {
                 type="checkbox"
                 value=""
                 id="defaultCheck1"
+                checked={
+                  customerProd != null ? customerProd.isPrivateCustomer : false
+                }
                 disabled
               />
               <label class="form-check-label" for="defaultCheck1">
@@ -41,6 +44,9 @@ const CustomerArea = () => {
                 type="checkbox"
                 value=""
                 id="defaultCheck2"
+                checked={
+                  customerProd != null ? !customerProd.isPrivateCustomer : false
+                }
                 disabled
               />
               <label class="form-check-label" for="defaultCheck2">
@@ -54,6 +60,9 @@ const CustomerArea = () => {
                 value=""
                 id="defaultCheck2"
                 disabled
+                checked={
+                  customerProd != null ? customerProd.isInBusiness : false
+                }
               />
               <label class="form-check-label" for="defaultCheck2">
                 Cliente già codificato in Business

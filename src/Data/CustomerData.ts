@@ -10,6 +10,8 @@ export interface CustomerData {
   an_prov: string;
   an_cap: string;
   an_pariva: string;
+  isPrivateCustomer: boolean;
+  isInBusiness: boolean;
 }
 
 export const getCustomersAsync = async (): Promise<CustomerData[]> => {
@@ -34,6 +36,8 @@ export interface ProductDataFromServer {
   an_prov: string;
   an_cap: string;
   an_pariva: string;
+  isPrivateCustomer: boolean;
+  isInBusiness: boolean;
 }
 
 export const mapProductFromServer = (

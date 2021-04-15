@@ -15,6 +15,7 @@ interface Props {
 export const SelectProductGrid = (props: Props) => {
   const dispatch = useDispatch();
   const selectElement = (row: ProductData) => {
+    //Questa parte di codice va inglobata in un unico elemento
     dispatch(gotProductAction(row));
     dispatch(gotShowModalProductAction(false));
     dispatch(gottingCurrentProductsGridAction(row));
