@@ -25,7 +25,7 @@ export interface Customer {
   isInBusiness: boolean;
 }
 export interface ProductRow {
-  id: number;
+  id: number; //serve per la cancellazione della riga
   ar_codart: string;
   ar_descr: string;
   ar_price: number;

@@ -8,15 +8,15 @@ interface GeneralState {
   readonly ShowLoading: boolean;
   readonly showModalProduct: boolean;
   readonly showModalCustomer: boolean;
-  readonly products: ProductData[]; //non usata
-  readonly customers: CustomerData[]; //non usata
   readonly currentProductsGrid: ProductData[];
-  readonly currentOrder: OrderData | null;
   readonly currentProductsGridTotal: number;
   readonly currentProductsGridTotalWithVat: number;
   readonly selectedProduct: ProductData | null;
   readonly selectedCustomer: CustomerData | null;
   readonly enableProductGrid: boolean; //non usata
+  readonly products: ProductData[]; //non usata
+  readonly customers: CustomerData[]; //non usata
+  readonly currentOrder: OrderData | null; //non usata
 }
 
 //Initial
@@ -134,12 +134,29 @@ export const gottingCurrentProductsGridAction = (
 export const GOTORDERTOTAL = "GotCurrentTotalsGrid";
 export const gottingCurrentTotalsGridAction = (
   total: number,
-  totalWithVat: number
+  totalWithVat: number,
+  oldTotal: number,
+  oldTotalWithVat: number
 ) =>
   ({
     type: GOTORDERTOTAL,
     currentProductsGridTotal: total,
     currentProductsGridTotalWithVat: totalWithVat,
+    oldTotal: oldTotal,
+    oldTotalWithVat: oldTotalWithVat,
+  } as const);
+
+export const GOTDELETEPRODUCTSGRID = "GotDeleteProductGrid";
+export const gottingDeleteProductGridAction = (
+  product: ProductData,
+  total: number,
+  totalWithVat: number
+) =>
+  ({
+    type: GOTDELETEPRODUCTSGRID,
+    product: product,
+    total: total,
+    totalWithVat: totalWithVat,
   } as const);
 
 //Action type
@@ -156,6 +173,7 @@ type ZmagActions =
   | ReturnType<typeof gettingCurrentProductsGridAction>
   | ReturnType<typeof gottingCurrentProductsGridAction>
   | ReturnType<typeof gottingCurrentTotalsGridAction>
+  | ReturnType<typeof gottingDeleteProductGridAction>
   | ReturnType<typeof gotShowModalCustomerAction>;
 
 //Reducer
@@ -248,10 +266,31 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
       };
     }
     case GOTORDERTOTAL: {
+      var newTotal =
+        state.currentProductsGridTotal -
+        action.oldTotal +
+        action.currentProductsGridTotal;
+
+      var newTotalWithVat =
+        state.currentProductsGridTotalWithVat -
+        action.oldTotalWithVat +
+        action.currentProductsGridTotalWithVat;
+
       return {
         ...state,
-        currentProductsGridTotal: action.currentProductsGridTotal,
-        currentProductsGridTotalWithVat: action.currentProductsGridTotalWithVat,
+        currentProductsGridTotal: newTotal,
+        currentProductsGridTotalWithVat: newTotalWithVat,
+      };
+    }
+    case GOTDELETEPRODUCTSGRID: {
+      var newTotal = state.currentProductsGridTotal - action.total;
+      var newTotalWithVat =
+        state.currentProductsGridTotalWithVat - action.totalWithVat;
+      return {
+        ...state,
+        currentProductsGrid: action.product,
+        currentProductsGridTotal: newTotal,
+        currentProductsGridTotalWithVat: newTotalWithVat,
       };
     }
   }
