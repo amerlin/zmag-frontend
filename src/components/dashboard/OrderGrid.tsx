@@ -1,10 +1,15 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../Data/Store";
 import BootstrapTable from "react-bootstrap-table-next";
 import { Button } from "react-bootstrap";
 
+// @ts-ignore
+import cellEditFactory from "react-bootstrap-table2-editor";
+
 export const OrderGrid = () => {
+  const dispatch = useDispatch();
+
   const products = useSelector((state: AppState) => {
     var currentGrids = state.zmagState.currentProductsGrid;
     return currentGrids;
@@ -32,7 +37,11 @@ export const OrderGrid = () => {
     {
       dataField: "ar_quant",
       text: "Quantita",
-      editable: false,
+      style: {
+        fontWeight: "bold",
+        fontSize: "18px",
+        width: "260px",
+      },
     },
     {
       dataField: "ar_sconto",
@@ -66,6 +75,21 @@ export const OrderGrid = () => {
     },
   ];
 
+  const cellEdit = cellEditFactory({
+    mode: "click",
+    afterSaveCell: (
+      oldValue: number,
+      newValue: number,
+      row: ProductData,
+      column: number
+    ) => {
+      row.ar_total = row.ar_quant * row.ar_price;
+      row.ar_totalWithVat =
+        row.ar_quant * row.ar_price +
+        (row.ar_quant * row.ar_price * row.ar_ivaperc) / 100;
+    },
+  });
+
   return (
     <div className="container-flow">
       <div className="row">&nbsp;</div>
@@ -77,6 +101,7 @@ export const OrderGrid = () => {
           striped
           hover
           condensed
+          cellEdit={cellEdit}
         />
       </div>
       <div className="row">
