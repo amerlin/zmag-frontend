@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { AppStat, gottingCurrentTotalsGridAction } from "../../Data/Store";
+import { AppState, gottingCurrentTotalsGridAction } from "../../Data/Store";
 import BootstrapTable from "react-bootstrap-table-next";
 import { Button } from "react-bootstrap";
 
