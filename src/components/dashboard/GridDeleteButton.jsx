@@ -6,8 +6,6 @@ import { AppState, gottingDeleteProductGridAction } from "../../Data/Store";
 
 interface Props {
   ar_codart: string;
-  ar_total: number;
-  ar_totalWithVat: number;
 }
 
 export const GridDeleteButton = (props: Props) => {
@@ -16,8 +14,15 @@ export const GridDeleteButton = (props: Props) => {
     return state.zmagState.currentProductsGrid;
   });
 
-  const deleteElement = (ar_codart, ar_total, ar_totalWithVat) => {
+  const deleteElement = (ar_codart) => {
+    var ar_total = 0;
+    var ar_totalWithVat = 0;
     var updated = products.filter(function (value) {
+      if (value.ar_codart === ar_codart) {
+        ar_totalWithVat = value.ar_totalWithVat;
+        ar_total = value.ar_total;
+        ar_total = value.ar_total;
+      }
       if (value.ar_codart !== ar_codart) return value;
     });
     dispatch(
@@ -26,11 +31,7 @@ export const GridDeleteButton = (props: Props) => {
   };
 
   return (
-    <Button
-      onClick={() =>
-        deleteElement(props.ar_codart, props.ar_total, props.ar_totalWithVat)
-      }
-    >
+    <Button onClick={() => deleteElement(props.ar_codart)}>
       <BsFillTrashFill />
     </Button>
   );

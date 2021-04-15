@@ -55,13 +55,13 @@ export const OrderGrid = () => {
       editable: false,
     },
     {
-      dataField: "ar_ivaperc",
-      text: "Iva %",
+      dataField: "ar_total",
+      text: "Totale IVA esclusa",
       editable: false,
     },
     {
-      dataField: "ar_total",
-      text: "Totale IVA esclusa",
+      dataField: "ar_ivaperc",
+      text: "Iva %",
       editable: false,
     },
     {
@@ -75,13 +75,7 @@ export const OrderGrid = () => {
       text: "",
       editable: false,
       formatter: (cellContent: string, row: ProductData) => {
-        return (
-          <GridDeleteButton
-            ar_codart={row.ar_codart}
-            ar_total={row.ar_total}
-            ar_totalWithVat={row.ar_totalWithVat}
-          />
-        );
+        return <GridDeleteButton ar_codart={row.ar_codart} />;
       },
     },
   ];
@@ -116,23 +110,18 @@ export const OrderGrid = () => {
     <div className="container-flow">
       <div className="row">
         <div className="col-md-2"></div>
-        <div className="col-md-2">
-          <strong>Totale Documento (senza iva):</strong>
+        <div className="col-md-4 text-right">
+          <strong>Totale Documento (senza iva): {totalDoc} €</strong>
         </div>
-        <div className="col-md-2">
-          <strong>{totalDoc} €</strong>
-        </div>
-        <div className="col-md-2">
-          <strong>Totale Documento (con iva):</strong>
-        </div>
-        <div className="col-md-2">
-          <strong>{totalDocWithIva} €</strong>
+        <div className="col-md-4">
+          <strong>Totale Documento (con iva): {totalDocWithIva} €</strong>
         </div>
         <div className="col-md-2"></div>
       </div>
       <div className="row">&nbsp;</div>
       <div className="row">
         <BootstrapTable
+          wrapperClasses="ordergrid"
           keyField="ar_codart"
           data={products}
           columns={columns}

@@ -283,8 +283,8 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
       };
     }
     case GOTDELETEPRODUCTSGRID: {
-      var newTotal = state.currentProductsGridTotal - action.total;
-      var newTotalWithVat =
+      newTotal = state.currentProductsGridTotal - action.total;
+      newTotalWithVat =
         state.currentProductsGridTotalWithVat - action.totalWithVat;
       return {
         ...state,
