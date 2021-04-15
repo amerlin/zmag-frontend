@@ -11,6 +11,7 @@ interface GeneralState {
   readonly customers: CustomerData[];
   readonly selectedProduct: ProductData | null;
   readonly selectedCustomer: CustomerData | null;
+  readonly enableProductGrid: boolean;
 }
 
 //Initial
@@ -22,6 +23,7 @@ const initialGeneralState: GeneralState = {
   selectedCustomer: null,
   showModalProduct: false,
   showModalCustomer: false,
+  enableProductGrid: false,
 };
 
 //AppState

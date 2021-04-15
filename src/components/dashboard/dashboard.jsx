@@ -2,8 +2,9 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import ProductGrid from "../products/productsGrid";
-// import CustomerArea from "./CustomerArea";
+import CustomerArea from "./CustomerArea";
 import CustomerGrid from "../customers/customersGrid";
+import OrderGrid from "./OrderGrid";
 import { useSelector, useDispatch } from "react-redux";
 import {
   AppState,
@@ -35,24 +36,25 @@ const DashBoard = () => {
     return state.zmagState.selectedProduct;
   });
 
-  // //current customer
-  // const customer = useSelector((state: AppState) => {
-  //   return state.zmagState.selectedCustomer;
-  // });
+  //current customer
+  const customer = useSelector((state: AppState) => {
+    return state.zmagState.selectedCustomer;
+  });
 
   return (
     <div>
       <h2>Nuova Vendita: </h2>
       <div className="container-fluid">
         <div className="row>">
-          <Button variant="primary" onClick={() => SetShowProductModal(true)}>
-            Aggiungi prodotto
-          </Button>
-          {}
           <Button variant="primary" onClick={() => SetShowCustomerModal(true)}>
             Aggiungi Cliente
           </Button>
+          &nbsp;&nbsp;
+          <Button variant="primary" onClick={() => SetShowProductModal(true)}>
+            Aggiungi prodotto
+          </Button>
         </div>
+        <div></div>
       </div>
 
       <Modal
@@ -70,7 +72,6 @@ const DashBoard = () => {
           <ProductGrid />
         </Modal.Body>
       </Modal>
-
       <Modal
         size="xl"
         aria-labelledby="example-modal-sizes-title-sm"
@@ -86,6 +87,9 @@ const DashBoard = () => {
           <CustomerGrid />
         </Modal.Body>
       </Modal>
+
+      <CustomerArea />
+      <OrderGrid />
     </div>
   );
 };
