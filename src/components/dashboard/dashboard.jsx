@@ -30,28 +30,13 @@ const DashBoard = () => {
     return state.zmagState.showModalCustomer;
   });
 
-  //current product
-  const product = useSelector((state: AppState) => {
-    console.log(state.zmagState.selectedProduct);
-    return state.zmagState.selectedProduct;
-  });
-
-  //current customer
-  const customer = useSelector((state: AppState) => {
-    return state.zmagState.selectedCustomer;
-  });
-
   return (
     <div>
-      <h2>Nuova Vendita: </h2>
+      <h2>Nuova Vendita</h2>
       <div className="container-fluid">
         <div className="row>">
           <Button variant="primary" onClick={() => SetShowCustomerModal(true)}>
-            Aggiungi Cliente
-          </Button>
-          &nbsp;&nbsp;
-          <Button variant="primary" onClick={() => SetShowProductModal(true)}>
-            Aggiungi prodotto
+            Ricerca Cliente
           </Button>
         </div>
         <div></div>
@@ -89,6 +74,13 @@ const DashBoard = () => {
       </Modal>
 
       <CustomerArea />
+      <div className="row">
+        <div className="col-md-12">
+          <Button variant="primary" onClick={() => SetShowProductModal(true)}>
+            Aggiungi prodotto
+          </Button>
+        </div>
+      </div>
       <OrderGrid />
     </div>
   );

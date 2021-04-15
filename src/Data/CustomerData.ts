@@ -9,7 +9,7 @@ export interface CustomerData {
   an_indir: string;
   an_prov: string;
   an_cap: string;
-  vat: string;
+  an_pariva: string;
 }
 
 export const getCustomersAsync = async (): Promise<CustomerData[]> => {
@@ -33,7 +33,7 @@ export interface ProductDataFromServer {
   an_indir: string;
   an_prov: string;
   an_cap: string;
-  vat: string;
+  an_pariva: string;
 }
 
 export const mapProductFromServer = (

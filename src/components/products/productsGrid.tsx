@@ -12,14 +12,6 @@ export const ProductGrid = () => {
   const [products, setProducts] = React.useState<ProductData[]>([]);
   const [productsLoading, setProductsLoading] = React.useState(true);
 
-  const dispatch = useDispatch();
-  const products1 = useSelector((state: AppState) => state.zmagState.products);
-  const customers = useSelector((state: AppState) => state.zmagState.customers);
-  const selectedProduct = useSelector(
-    (state: AppState) => state.zmagState.selectedProduct
-  );
-  const loading = useSelector((state: AppState) => state.zmagState.ShowLoading);
-
   React.useEffect(() => {
     const getProds = async () => {
       const prod = await getProductsAsync();
