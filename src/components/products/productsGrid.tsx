@@ -5,8 +5,6 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import { ProductData, getProductsAsync } from "../../Data/ProductData";
 import { Spinner } from "react-bootstrap";
 import { SelectProductGrid } from "./SelectProductGrid";
-import { useSelector, useDispatch } from "react-redux";
-import { AppState } from "../../Data/Store";
 
 export const ProductGrid = () => {
   const [products, setProducts] = React.useState<ProductData[]>([]);
@@ -20,6 +18,14 @@ export const ProductGrid = () => {
     };
     getProds();
   }, []);
+
+  function priceFormatter(cell, row) {
+    return cell.toLocaleString("it-IT", { minimumFractionDigits: 2 });
+  }
+
+  function setTrueFalse(cell, row) {
+    return cell === true ? "Si" : "No";
+  }
 
   const columns = [
     {
@@ -35,6 +41,13 @@ export const ProductGrid = () => {
       editable: false,
     },
     {
+      dataField: "ar_isComposed",
+      text: "Distinta base",
+      searchable: false,
+      formatter: setTrueFalse,
+      editable: false,
+    },
+    {
       dataField: "ar_descr",
       text: "Descrizione",
       searchable: true,
@@ -44,6 +57,7 @@ export const ProductGrid = () => {
       dataField: "ar_price",
       text: "Prezzo (€)",
       classes: "demo-key-row",
+      formatter: priceFormatter,
     },
     {
       dataField: "Action",
@@ -85,7 +99,6 @@ export const ProductGrid = () => {
                     {...props.searchProps}
                     placeholder="Cerca prodotto"
                   />
-                  <hr />
                   <BootstrapTable
                     {...props.baseProps}
                     striped

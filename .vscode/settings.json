@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/236d7ef2-d3a7-46c8-9ea0-880e42ef5c44/resourceGroups/Zella/providers/Microsoft.Web/sites/zmag-frontend",
+    "appService.deploySubpath": "build"
+}

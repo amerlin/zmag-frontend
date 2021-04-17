@@ -1,4 +1,9 @@
-export const server = "https://zmag.azurewebsites.net";
+export const server =
+  process.env.REACT_APP_ENV === "production"
+    ? "https://zmag.azurewebsites.net"
+    : process.env.REACT_APP_ENV === "staging"
+    ? "https://zmag.azurewebsites.net"
+    : "https://zmag.azurewebsites.net";
 
 export const webAPIUrl = `${server}/api`;
 

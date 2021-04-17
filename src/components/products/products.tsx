@@ -4,7 +4,7 @@ import ProductGrid from "./productsGrid";
 const Products = () => {
   return (
     <div>
-      <h2>Listino Prodotti</h2>
+      <h2>Anagrafica Prodotti</h2>
       <ProductGrid />
     </div>
   );

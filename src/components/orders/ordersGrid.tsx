@@ -92,7 +92,6 @@ export const OrdersGrid = () => {
                     {...props.searchProps}
                     placeholder="Cerca vendita"
                   />
-                  <hr />
                   <BootstrapTable
                     {...props.baseProps}
                     striped

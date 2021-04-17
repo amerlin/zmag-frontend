@@ -17,12 +17,16 @@ export const OrderGrid = () => {
   });
 
   const totalDoc = useSelector((state: AppState) => {
-    return state.zmagState.currentProductsGridTotal;
+    return priceFormatter(state.zmagState.currentProductsGridTotal, 0);
   });
 
   const totalDocWithIva = useSelector((state: AppState) => {
-    return state.zmagState.currentProductsGridTotalWithVat;
+    return priceFormatter(state.zmagState.currentProductsGridTotalWithVat, 0);
   });
+
+  function priceFormatter(cell, row) {
+    return cell.toLocaleString("it-IT", { minimumFractionDigits: 2 });
+  }
 
   const columns = [
     {
@@ -52,11 +56,13 @@ export const OrderGrid = () => {
     {
       dataField: "ar_price",
       text: "Prezzo senza IVA",
+      formatter: priceFormatter,
       editable: false,
     },
     {
       dataField: "ar_total",
       text: "Totale IVA esclusa",
+      formatter: priceFormatter,
       editable: false,
     },
     {
@@ -67,6 +73,7 @@ export const OrderGrid = () => {
     {
       dataField: "ar_totalWithVat",
       text: "Totale IVA inclusa",
+      formatter: priceFormatter,
       editable: false,
     },
     {
@@ -110,10 +117,10 @@ export const OrderGrid = () => {
     <div className="container-flow">
       <div className="row">
         <div className="col-md-2"></div>
-        <div className="col-md-4 text-right">
+        <div className="col-md-4 text-center totalgrid">
           <strong>Totale Documento (senza iva): {totalDoc} €</strong>
         </div>
-        <div className="col-md-4">
+        <div className="col-md-4 text-center totalgrid">
           <strong>Totale Documento (con iva): {totalDocWithIva} €</strong>
         </div>
         <div className="col-md-2"></div>

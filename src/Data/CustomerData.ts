@@ -1,6 +1,7 @@
 import { http } from "../http";
 
 export interface CustomerData {
+  id: number;
   codditt: string;
   an_conto: number;
   an_descr1: string;
@@ -31,6 +32,7 @@ export const getCustomersAsync = async (): Promise<CustomerData[]> => {
 export interface ProductDataFromServer {
   codditt: string;
   an_conto: number;
+  id: number;
   an_descr1: string;
   an_descr2: string;
   an_citta: string;

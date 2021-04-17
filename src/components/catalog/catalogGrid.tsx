@@ -1,67 +1,75 @@
 import React from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import paginationFactory from "react-bootstrap-table2-paginator";
-import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
-import { CustomerData, getCustomersAsync } from "../../Data/CustomerData";
-import { SelectCustomerGrid } from "./SelectCustomerGrid";
+import { CatalogData, getCatalogsAsync } from "../../Data/CatalogData";
 import { Spinner } from "react-bootstrap";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import BootstrapTable from "react-bootstrap-table-next";
+import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
+import moment from "moment";
 
-export const CustomerGrid = () => {
-  const option = {};
+export const CatalogGrid = () => {
   const { SearchBar } = Search;
-  const [customers, setCustomers] = React.useState<CustomerData[]>([]);
-  const [customersLoading, setCustomersLoading] = React.useState(true);
+  const option = {};
+  const [catalogs, setCatalogs] = React.useState<CatalogData[]>([]);
+  const [catalogsLoading, setCatalogLoading] = React.useState(true);
+
+  function dateFormatter(cell, row) {
+    return moment(cell).format("MM-DD-YYYY HH:mm:ss");
+  }
 
   React.useEffect(() => {
-    const getP = async () => {
-      const prod = await getCustomersAsync();
-      setCustomers(prod);
-      setCustomersLoading(false);
+    const getDataAsync = async () => {
+      const catalogs = await getCatalogsAsync();
+      setCatalogs(catalogs);
+      setCatalogLoading(false);
     };
-    getP();
+    getDataAsync();
   }, []);
 
   const columns = [
     {
-      dataField: "an_descr1",
-      text: "Ragione Sociale",
+      dataField: "id",
+      text: "Numero listino",
       editable: false,
       searchable: true,
     },
     {
-      dataField: "an_descr2",
+      dataField: "descr",
       text: "Descrizione",
       editable: false,
-      searchable: true,
+      searchable: false,
     },
     {
-      dataField: "an_indir",
-      text: "Indirizzo",
-      classes: "demo-key-row",
-    },
-    {
-      dataField: "an_citta",
-      text: "Città",
-      classes: "demo-key-row",
-    },
-    {
-      dataField: "an_prov",
-      text: "Provincia",
-      classes: "demo-key-row",
-    },
-    {
-      dataField: "an_cap",
-      text: "C.A.P.",
-      classes: "demo-key-row",
-    },
-    {
-      dataField: "Action",
-      isDummyField: true,
-      text: "",
+      dataField: "type",
+      text: "Tipo",
       editable: false,
-      formatter: (cellContent: string, row: CustomerData) => {
-        return <SelectCustomerGrid row={row} />;
-      },
+      searchable: false,
+    },
+    {
+      dataField: "moltiplicator",
+      text: "Moltiplicatore",
+      editable: false,
+      searchable: false,
+    },
+    {
+      dataField: "ultagg",
+      text: "Data Aggiornamento",
+      formatter: dateFormatter,
+      editable: false,
+      searchable: false,
+    },
+    {
+      dataField: "startDate",
+      text: "Valido dal",
+      formatter: dateFormatter,
+      editable: false,
+      searchable: false,
+    },
+    {
+      dataField: "endDate",
+      text: "Valido al",
+      formatter: dateFormatter,
+      editable: false,
+      searchable: false,
     },
   ];
 
@@ -72,14 +80,14 @@ export const CustomerGrid = () => {
       </div>
       <div className="row">
         <div className="col-md-12">
-          {customersLoading ? (
+          {catalogsLoading ? (
             <Spinner animation="border" role="status">
               <span className="sr-only">Loading...</span>
             </Spinner>
           ) : (
             <ToolkitProvider
               keyField="ar_codart"
-              data={customers}
+              data={catalogs}
               columns={columns}
               search={{
                 searchFormatted: true,
@@ -89,7 +97,7 @@ export const CustomerGrid = () => {
                 <div>
                   <SearchBar
                     {...props.searchProps}
-                    placeholder="Cerca cliente"
+                    placeholder="Cerca listino"
                   />
                   <BootstrapTable
                     {...props.baseProps}
@@ -103,10 +111,7 @@ export const CustomerGrid = () => {
             </ToolkitProvider>
           )}
         </div>
-        <div className="col-md-4"></div>
       </div>
     </div>
   );
 };
-
-export default CustomerGrid;

@@ -37,7 +37,8 @@ const DashBoard = () => {
 
   return (
     <div>
-      <h2>Nuova Vendita</h2>
+      <h2>Nuova Commessa</h2>
+      <p> Ambiente: {process.env.REACT_APP_ENV || "dev"}</p>
       <div className="container-fluid">
         <div className="row>">
           <Button variant="primary" onClick={() => SetShowCustomerModal(true)}>

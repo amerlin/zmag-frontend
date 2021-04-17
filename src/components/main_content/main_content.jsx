@@ -6,7 +6,7 @@ import Dashboard from "../dashboard/dashboard";
 import Customers from "../customers/customers";
 import Products from "../products/products";
 import Orders from "../orders/orders";
-import Tools from "../tools/tools";
+import Catalog from "../catalog/catalog";
 
 const MainContent = () => {
   return (
@@ -16,7 +16,7 @@ const MainContent = () => {
         <Route path="/customers" element={<Customers />} />
         <Route path="/products" element={<Products />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/tools" element={<Tools />} />
+        <Route path="/catalog" element={<Catalog />} />
         <Route path="*" element={<Dashboard />} />
       </Routes>
     </div>

@@ -10,6 +10,19 @@ export interface ProductData {
   ar_totalWithVat: number;
   ar_ivaperc: number;
   ar_sconto: number;
+  ar_listino1: number;
+  ar_iva1: number;
+  ar_sconto1: number;
+  ar_listino2: number;
+  ar_iva2: number;
+  ar_sconto2: number;
+  ar_listino3: number;
+  ar_iva3: number;
+  ar_sconto3: number;
+  ar_listino4: number;
+  ar_iva4: number;
+  ar_sconto4: number;
+  ar_isComposed: boolean;
 }
 
 export const getProductsAsync = async (): Promise<ProductData[]> => {
@@ -33,6 +46,19 @@ export interface ProductDataFromServer {
   ar_totalWithVat: number;
   ar_ivaperc: number;
   ar_sconto: number;
+  ar_listino1: number;
+  ar_iva1: number;
+  ar_sconto1: number;
+  ar_listino2: number;
+  ar_iva2: number;
+  ar_sconto2: number;
+  ar_listino3: number;
+  ar_iva3: number;
+  ar_sconto3: number;
+  ar_listino4: number;
+  ar_iva4: number;
+  ar_sconto4: number;
+  ar_isComposed: boolean;
 }
 
 export const mapProductFromServer = (
