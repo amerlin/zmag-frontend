@@ -24,6 +24,7 @@ export const GridDeleteButton = (props: Props) => {
         ar_total = value.ar_total;
       }
       if (value.ar_codart !== ar_codart) return value;
+      return value;
     });
     dispatch(
       gottingDeleteProductGridAction(updated, ar_total, ar_totalWithVat)

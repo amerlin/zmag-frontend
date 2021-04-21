@@ -5,19 +5,39 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import { ProductData, getProductsAsync } from "../../Data/ProductData";
 import { Spinner } from "react-bootstrap";
 import { SelectProductGrid } from "./SelectProductGrid";
+import { ComposedProducts } from "./ComposedProducts";
+import { useState } from "react";
 
 export const ProductGrid = () => {
   const [products, setProducts] = React.useState<ProductData[]>([]);
   const [productsLoading, setProductsLoading] = React.useState(true);
+  const [prdDistinta, setPrdDistinta] = useState<string[]>([]);
 
   React.useEffect(() => {
     const getProds = async () => {
       const prod = await getProductsAsync();
       setProducts(prod);
+      setPrdDistinta(getOnlyComposedProducts(prod));
       setProductsLoading(false);
     };
     getProds();
   }, []);
+
+  const expandGridRow = {
+    renderer: (row: ProductData) => (
+      <ComposedProducts ar_codart={row.ar_codart} />
+    ),
+    showExpandColumn: true,
+    nonExpandable: prdDistinta,
+  };
+
+  const getOnlyComposedProducts = (prd: ProductData[]): string[] => {
+    return prd
+      .filter((element) => {
+        if (!element.ar_isComposed) return element;
+      })
+      .map((value) => value.ar_codart);
+  };
 
   function priceFormatter(cell, row) {
     return cell.toLocaleString("it-IT", { minimumFractionDigits: 2 });
@@ -68,13 +88,18 @@ export const ProductGrid = () => {
         return <SelectProductGrid row={row} />;
       },
     },
+    {
+      dataField: "Action1",
+      isDummyField: true,
+      text: "",
+    },
   ];
 
   const option = {};
   const { SearchBar } = Search;
 
   return (
-    <div className="container-fluid">
+    <div className="container-flex">
       <div className="row">
         <br />
       </div>
@@ -105,6 +130,7 @@ export const ProductGrid = () => {
                     hover
                     condensed
                     pagination={paginationFactory(option)}
+                    expandRow={expandGridRow}
                   />
                 </div>
               )}

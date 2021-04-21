@@ -5,9 +5,6 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import { Spinner } from "react-bootstrap";
 import { OrderData, getOrdersAsync } from "../../Data/OrderData";
 
-// @ts-ignore
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
-
 export const OrdersGrid = () => {
   const [orders, setOrders] = React.useState<OrderData[]>([]);
   const [ordersLoading, setOrdersLoading] = React.useState(true);
