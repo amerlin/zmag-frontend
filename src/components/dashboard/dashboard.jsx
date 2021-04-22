@@ -1,9 +1,9 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import ProductGrid from "../products/productsGrid";
+import ProductGrid from "../products/ProductsGrid";
 import CustomerArea from "./CustomerArea";
-import CustomerGrid from "../customers/customersGrid";
+import CustomerGrid from "../customers/CustomersGrid";
 import OrderGrid from "./OrderGrid";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -14,22 +14,25 @@ import {
 const DashBoard = () => {
   const dispatch = useDispatch();
 
-  //show product modal - posso spostarlo direttamente nella griglia
-  const SetShowProductModal = (visible) =>
-    dispatch(gotShowModalProductAction(visible));
-
-  //show customers modal - posso spostarlo direttamente nella griglia
+  //show customers modal
   const SetShowCustomerModal = (visible) =>
     dispatch(gotShowModalCustomerAction(visible));
 
-  const showProductModal = useSelector((state: AppState) => {
-    return state.zmagState.showModalProduct;
-  });
+  //show product modal
+  const SetShowProductModal = (visible) =>
+    dispatch(gotShowModalProductAction(visible));
 
-  const showCustomertModal = useSelector((state: AppState) => {
-    return state.zmagState.showModalCustomer;
-  });
+  //get if products grid modal is true
+  const showProductModal = useSelector(
+    (state: AppState) => state.zmagState.showModalProduct
+  );
 
+  //get if customers grid modal is true
+  const showCustomertModal = useSelector(
+    (state: AppState) => state.zmagState.showModalCustomer
+  );
+
+  //set customer selected
   const customersSelected = useSelector((state: AppState) => {
     var customer = state.zmagState.selectedCustomer;
     return customer == null;
@@ -51,21 +54,6 @@ const DashBoard = () => {
       <Modal
         size="xl"
         aria-labelledby="example-modal-sizes-title-sm"
-        show={showProductModal}
-        onHide={() => SetShowProductModal(false)}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="example-modal-sizes-title-sm">
-            Ricerca Prodotti
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <ProductGrid />
-        </Modal.Body>
-      </Modal>
-      <Modal
-        size="xl"
-        aria-labelledby="example-modal-sizes-title-sm"
         show={showCustomertModal}
         onHide={() => SetShowCustomerModal(false)}
       >
@@ -76,6 +64,22 @@ const DashBoard = () => {
         </Modal.Header>
         <Modal.Body>
           <CustomerGrid />
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        size="xl"
+        aria-labelledby="example-modal-sizes-title-sm"
+        show={showProductModal}
+        onHide={() => SetShowProductModal(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-modal-sizes-title-sm">
+            Ricerca Prodotti
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ProductGrid />
         </Modal.Body>
       </Modal>
 

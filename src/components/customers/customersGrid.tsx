@@ -3,15 +3,17 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import { CustomerData, getCustomersAsync } from "../../Data/CustomerData";
-import { SelectCustomerGrid } from "./SelectCustomerGrid";
+import { SelectButtonCustomerGrid } from "./SelectButtonCustomerGrid";
 import { Spinner } from "react-bootstrap";
 
-export const CustomerGrid = () => {
+//customers grid
+const CustomersGrid = () => {
   const option = {};
   const { SearchBar } = Search;
   const [customers, setCustomers] = React.useState<CustomerData[]>([]);
   const [customersLoading, setCustomersLoading] = React.useState(true);
 
+  //on load
   React.useEffect(() => {
     const getP = async () => {
       const prod = await getCustomersAsync();
@@ -21,6 +23,7 @@ export const CustomerGrid = () => {
     getP();
   }, []);
 
+  //grid definitions
   const columns = [
     {
       dataField: "an_descr1",
@@ -60,7 +63,7 @@ export const CustomerGrid = () => {
       text: "",
       editable: false,
       formatter: (cellContent: string, row: CustomerData) => {
-        return <SelectCustomerGrid row={row} />;
+        return <SelectButtonCustomerGrid row={row} />;
       },
     },
   ];
@@ -109,4 +112,4 @@ export const CustomerGrid = () => {
   );
 };
 
-export default CustomerGrid;
+export default CustomersGrid;

@@ -1,23 +1,23 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { CustomerData } from "../../Data/CustomerData";
 import { useDispatch } from "react-redux";
 import { gotCustomerAction } from "../../Data/Store";
+import { useSelector } from "react-redux";
+import { AppState } from "../../Data/Store";
 
-interface Props {
-  row: CustomerData;
-}
-
-export const SelectCustomerGrid = (props: Props) => {
+//SelectButtonCustomerGrid
+export const SelectButtonCustomerGrid = (props) => {
   const dispatch = useDispatch();
-  const selectElement = (row: CustomerData) => {
-    dispatch(gotCustomerAction(row));
-  };
+
+  const showCustomerModal = useSelector(
+    (state: AppState) => state.zmagState.showModalCustomer
+  );
 
   return (
     <Button
       className="btn-sm"
       onClick={() => dispatch(gotCustomerAction(props.row))}
+      disabled={!showCustomerModal}
     >
       Seleziona
     </Button>

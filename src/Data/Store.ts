@@ -2,26 +2,28 @@ import { Store, createStore, combineReducers } from "redux";
 import { ProductData } from "./ProductData";
 import { CustomerData } from "./CustomerData";
 import { OrderData } from "./OrderData";
+import { UserData } from "./Userdata";
 
 //General State
 interface GeneralState {
-  readonly ShowLoading: boolean;
-  readonly showModalProduct: boolean;
-  readonly showModalCustomer: boolean;
-  readonly currentProductsGrid: ProductData[];
-  readonly currentProductsGridTotal: number;
-  readonly currentProductsGridTotalWithVat: number;
-  readonly selectedProduct: ProductData | null;
-  readonly selectedCustomer: CustomerData | null;
-  readonly enableProductGrid: boolean; //non usata
-  readonly products: ProductData[]; //non usata
-  readonly customers: CustomerData[]; //non usata
-  readonly currentOrder: OrderData | null; //non usata
+  readonly showLoading: boolean; //loading
+  readonly showModalProduct: boolean; //modal product is visibile
+  readonly showModalCustomer: boolean; //modal customer is visible
+  readonly currentProductsGrid: ProductData[]; //current grid
+  readonly currentProductsGridTotal: number; //total grid
+  readonly currentProductsGridTotalWithVat: number; //total grid with vat
+  readonly selectedProduct: ProductData | null; //selected value from modal grid
+  readonly selectedCustomer: CustomerData | null; //select customer from modal grid
+  readonly loggedUser: UserData | null; //not used
+  readonly enableProductGrid: boolean; //not used
+  readonly products: ProductData[]; //not used
+  readonly customers: CustomerData[]; //not used
+  readonly currentOrder: OrderData | null; //not used
 }
 
-//Initial
+//initial configuration
 const initialGeneralState: GeneralState = {
-  ShowLoading: false,
+  showLoading: false,
   currentProductsGrid: [],
   currentOrder: null,
   products: [],
@@ -33,6 +35,7 @@ const initialGeneralState: GeneralState = {
   enableProductGrid: false,
   currentProductsGridTotal: 0,
   currentProductsGridTotalWithVat: 0,
+  loggedUser: null,
 };
 
 //AppState
@@ -122,6 +125,7 @@ export const gettingCurrentProductsGridAction = () =>
     type: GETCURRENTPRODUCTSGRID,
   } as const);
 
+//CURRENT PRODUCTS IN GRID
 export const GOTCURRENTPRODUCTSGRID = "GotCurrentProductsGrid";
 export const gottingCurrentProductsGridAction = (
   product: ProductData[] | null
@@ -131,6 +135,7 @@ export const gottingCurrentProductsGridAction = (
     product: product,
   } as const);
 
+//GOT TOTAL GRID (EURO)
 export const GOTORDERTOTAL = "GotCurrentTotalsGrid";
 export const gottingCurrentTotalsGridAction = (
   total: number,
@@ -146,6 +151,7 @@ export const gottingCurrentTotalsGridAction = (
     oldTotalWithVat: oldTotalWithVat,
   } as const);
 
+//DELETE ELEMENT IN GRID
 export const GOTDELETEPRODUCTSGRID = "GotDeleteProductGrid";
 export const gottingDeleteProductGridAction = (
   product: ProductData,

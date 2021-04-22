@@ -6,7 +6,8 @@ import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import moment from "moment";
 
-export const CatalogGrid = () => {
+//Catalogs Grid
+export const CatalogsGrid = () => {
   const { SearchBar } = Search;
   const option = {};
   const [catalogs, setCatalogs] = React.useState<CatalogData[]>([]);

@@ -1,7 +1,8 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { ProductData } from "../../Data/ProductData";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "../../Data/Store";
 import {
   gotProductAction,
   gotShowModalProductAction,
@@ -20,8 +21,16 @@ export const SelectProductGrid = (props: Props) => {
     dispatch(gottingCurrentProductsGridAction(row));
   };
 
+  const showModalProduct = useSelector(
+    (state: AppState) => state.zmagState.showModalProduct
+  );
+
   return (
-    <Button className="btn-sm" onClick={() => selectElement(props.row)}>
+    <Button
+      className="btn-sm"
+      onClick={() => selectElement(props.row)}
+      disabled={!showModalProduct}
+    >
       Seleziona
     </Button>
   );

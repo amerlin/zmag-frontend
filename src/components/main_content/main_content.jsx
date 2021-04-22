@@ -2,11 +2,11 @@
 
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Dashboard from "../dashboard/dashboard";
-import Customers from "../customers/customers";
-import Products from "../products/products";
+import Dashboard from "../dashboard/Dashboard";
+import Customers from "../customers/Customers";
+import Products from "../products/Products";
 import Orders from "../orders/orders";
-import Catalog from "../catalog/catalog";
+import Catalog from "../catalog/Catalog";
 
 const MainContent = () => {
   return (

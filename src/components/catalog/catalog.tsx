@@ -1,10 +1,11 @@
 import React from "react";
-import { CatalogGrid } from "./catalogGrid";
+import { CatalogsGrid } from "./CatalogsGrid";
+
 const Catalog = () => {
   return (
     <div>
       <h2>Elenco Listini</h2>
-      <CatalogGrid />
+      <CatalogsGrid />
     </div>
   );
 };

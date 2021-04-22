@@ -1,5 +1,5 @@
 import React from "react";
-import ProductGrid from "./productsGrid";
+import ProductGrid from "./ProductsGrid";
 
 const Products = () => {
   return (

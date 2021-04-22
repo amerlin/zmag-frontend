@@ -4,46 +4,50 @@ import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { ProductData, getProductsAsync } from "../../Data/ProductData";
 import { Spinner } from "react-bootstrap";
-import { SelectProductGrid } from "./SelectProductGrid";
+import { SelectProductGrid } from "./SelectButtonProductGrid";
 import { ComposedProducts } from "./ComposedProducts";
 import { useState } from "react";
 
 export const ProductGrid = () => {
   const [products, setProducts] = React.useState<ProductData[]>([]);
   const [productsLoading, setProductsLoading] = React.useState(true);
-  const [prdDistinta, setPrdDistinta] = useState<string[]>([]);
+  const [prdNotDistinta, setPrdNotDistinta] = useState<string[]>([]);
 
+  //onLoad
   React.useEffect(() => {
     const getProds = async () => {
       const prod = await getProductsAsync();
       setProducts(prod);
-      setPrdDistinta(getOnlyComposedProducts(prod));
+      setPrdNotDistinta(getNotComposedProducts(prod));
       setProductsLoading(false);
     };
     getProds();
   }, []);
 
+  //expand grid
   const expandGridRow = {
     renderer: (row: ProductData) => (
       <ComposedProducts ar_codart={row.ar_codart} />
     ),
     showExpandColumn: true,
-    nonExpandable: prdDistinta,
+    nonExpandable: prdNotDistinta,
   };
 
-  const getOnlyComposedProducts = (prd: ProductData[]): string[] => {
+  const getNotComposedProducts = (prd: ProductData[]): string[] => {
     return prd
       .filter((element) => {
-        if (!element.ar_isComposed) return element;
+        return element.ar_isComposed === false;
       })
       .map((value) => value.ar_codart);
   };
 
-  function priceFormatter(cell, row) {
+  //price formatter
+  function priceFormatter(cell: string, row: ProductData) {
     return cell.toLocaleString("it-IT", { minimumFractionDigits: 2 });
   }
 
-  function setTrueFalse(cell, row) {
+  //set true/false label
+  function setTrueFalseLabelInGrid(cell: boolean, row: ProductData) {
     return cell === true ? "Si" : "No";
   }
 
@@ -64,7 +68,7 @@ export const ProductGrid = () => {
       dataField: "ar_isComposed",
       text: "Distinta base",
       searchable: false,
-      formatter: setTrueFalse,
+      formatter: setTrueFalseLabelInGrid,
       editable: false,
     },
     {
