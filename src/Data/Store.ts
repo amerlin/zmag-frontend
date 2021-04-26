@@ -88,10 +88,17 @@ export const gotCustomerAction = (customer: CustomerData | null) =>
     showModalCustomer: false,
   } as const);
 
-//GOT ORDER
+//get order
+export const GETTINGORDER = "GettingOrder";
+export const gettingOrderAction = () =>
+  ({
+    type: GETTINGORDER,
+  } as const);
+
+//got order
 export const GOTORDER = "GotOrder";
 export const gotOrderAction = (
-  order: OrderData,
+  order: OrderData | null,
   customer: CustomerData | null
 ) =>
   ({
@@ -193,6 +200,7 @@ type ZmagActions =
   | ReturnType<typeof gottingCurrentTotalsGridAction>
   | ReturnType<typeof gottingDeleteProductGridAction>
   | ReturnType<typeof gotOrderAction>
+  | ReturnType<typeof gettingOrderAction>
   | ReturnType<typeof gotShowModalCustomerAction>;
 
 //Reducer
@@ -262,6 +270,7 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
         loading: false,
       };
     }
+
     case GOTCURRENTPRODUCTSGRID: {
       //questa parte deve essere spostata nella logica
       action.product.ar_quant = 1;
@@ -312,16 +321,22 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
         currentProductsGridTotalWithVat: newTotalWithVat,
       };
     }
+    case GETTINGORDER: {
+      return {
+        ...state,
+      };
+    }
     case GOTORDER: {
-      //sistemare
       return {
         ...state,
         currentOrder: action.order,
-        customer: action.customer,
+        selectedCustomer: action.customer,
+        showModalCustomer: false,
       };
     }
+    default:
+      return state;
   }
-  return state;
 };
 
 //root creation

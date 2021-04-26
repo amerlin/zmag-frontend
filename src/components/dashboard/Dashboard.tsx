@@ -18,7 +18,7 @@ const DashBoard = () => {
   const dispatch = useDispatch();
 
   //show customers modal
-  const SetShowCustomerModal = (visible: boolen) =>
+  const SetShowCustomerModal = (visible: boolean) =>
     dispatch(gotShowModalCustomerAction(visible));
 
   //show product modal
@@ -41,6 +41,7 @@ const DashBoard = () => {
     return customer == null;
   });
 
+  //Create new order
   const CreateCurrentOrder = () => {
     var newOrder: OrderData = {
       id: 0,
@@ -54,6 +55,7 @@ const DashBoard = () => {
     dispatch(gotOrderAction(newOrder, null));
   };
 
+  //Delete current order
   const DeleteCurrentOrder = () => {
     var newOrder: OrderData = {
       id: 0,
