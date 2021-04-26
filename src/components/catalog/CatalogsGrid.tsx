@@ -17,6 +17,10 @@ export const CatalogsGrid = () => {
     return moment(cell).format("MM-DD-YYYY HH:mm:ss");
   }
 
+  function setCatalogType(cell, row) {
+    return cell === "F" ? "Fornitori" : "Cliente";
+  }
+
   React.useEffect(() => {
     const getDataAsync = async () => {
       const catalogs = await getCatalogsAsync();
@@ -44,6 +48,7 @@ export const CatalogsGrid = () => {
       text: "Tipo",
       editable: false,
       searchable: false,
+      formatter: setCatalogType,
     },
     {
       dataField: "moltiplicator",
