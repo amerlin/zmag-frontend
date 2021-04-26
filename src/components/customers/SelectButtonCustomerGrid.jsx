@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { gotCustomerAction } from "../../Data/Store";
+import { gotCustomerAction, gotOrderAction } from "../../Data/Store";
 import { useSelector } from "react-redux";
 import { AppState } from "../../Data/Store";
 
@@ -9,15 +9,22 @@ import { AppState } from "../../Data/Store";
 export const SelectButtonCustomerGrid = (props) => {
   const dispatch = useDispatch();
 
-  const showCustomerModal = useSelector(
+  //enable or disable selection button
+  const enableSelectButton = useSelector(
     (state: AppState) => state.zmagState.showModalCustomer
   );
+
+  const setCustomerInOrder = (row: any) => {
+    console.log(row);
+    dispatch(gotCustomerAction(props.row)); //remove
+    dispatch(gotOrderAction(props.row)); //dispatch in new order
+  };
 
   return (
     <Button
       className="btn-sm"
-      onClick={() => dispatch(gotCustomerAction(props.row))}
-      disabled={!showCustomerModal}
+      onClick={() => setCustomerInOrder(props.row)}
+      disabled={!enableSelectButton}
     >
       Seleziona
     </Button>

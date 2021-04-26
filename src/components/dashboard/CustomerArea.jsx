@@ -4,9 +4,10 @@ import { AppState } from "../../Data/Store";
 import Form from "react-bootstrap/Form";
 
 const CustomerArea = () => {
-  const customerProd = useSelector(
-    (state: AppState) => state.zmagState.selectedCustomer
-  );
+  const customerProd = useSelector((state: AppState) => {
+    return state.zmagState.selectedCustomer;
+  });
+
   return (
     <div className="container-fluid">
       <Form className="mt-3">

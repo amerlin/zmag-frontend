@@ -5,9 +5,12 @@ import ProductGrid from "../products/ProductsGrid";
 import CustomerArea from "./CustomerArea";
 import CustomerGrid from "../customers/CustomersGrid";
 import OrderGrid from "./OrderGrid";
+import { OrderData } from "../../Data/OrderData";
+
 import { useSelector, useDispatch } from "react-redux";
 import {
   AppState,
+  gotOrderAction,
   gotShowModalCustomerAction,
   gotShowModalProductAction,
 } from "../../Data/Store";
@@ -15,11 +18,11 @@ const DashBoard = () => {
   const dispatch = useDispatch();
 
   //show customers modal
-  const SetShowCustomerModal = (visible) =>
+  const SetShowCustomerModal = (visible: boolen) =>
     dispatch(gotShowModalCustomerAction(visible));
 
   //show product modal
-  const SetShowProductModal = (visible) =>
+  const SetShowProductModal = (visible: boolean) =>
     dispatch(gotShowModalProductAction(visible));
 
   //get if products grid modal is true
@@ -32,21 +35,62 @@ const DashBoard = () => {
     (state: AppState) => state.zmagState.showModalCustomer
   );
 
-  //set customer selected
+  //set customersSelected boolean value
   const customersSelected = useSelector((state: AppState) => {
     var customer = state.zmagState.selectedCustomer;
     return customer == null;
   });
+
+  const CreateCurrentOrder = () => {
+    var newOrder: OrderData = {
+      id: 0,
+      year: 0,
+      productsRow: [],
+      customer: null,
+      total: 0,
+      totalWithVat: 0,
+      note: "",
+    };
+    dispatch(gotOrderAction(newOrder, null));
+  };
+
+  const DeleteCurrentOrder = () => {
+    var newOrder: OrderData = {
+      id: 0,
+      year: 0,
+      productsRow: [],
+      customer: null,
+      total: 0,
+      totalWithVat: 0,
+      note: "",
+    };
+    dispatch(gotOrderAction(newOrder, null));
+  };
 
   return (
     <div>
       <h2>Nuova Commessa</h2>
       <p> Ambiente: {process.env.REACT_APP_ENV || "dev"}</p>
       <div className="container-fluid">
-        <div className="row>">
-          <Button variant="primary" onClick={() => SetShowCustomerModal(true)}>
-            Ricerca Cliente
-          </Button>
+        <div className="row">
+          <div className="col-md-4">
+            <Button variant="primary" onClick={() => CreateCurrentOrder()}>
+              Crea Nuovo Ordine
+            </Button>
+          </div>
+          <div className="col-md-4">
+            <Button variant="primary" onClick={() => DeleteCurrentOrder()}>
+              Annulla Ordine
+            </Button>
+          </div>
+          <div className="col-md-4">
+            <Button
+              variant="primary"
+              onClick={() => SetShowCustomerModal(true)}
+            >
+              Ricerca Cliente
+            </Button>
+          </div>
         </div>
         <div></div>
       </div>

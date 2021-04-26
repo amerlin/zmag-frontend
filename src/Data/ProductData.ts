@@ -1,5 +1,6 @@
 import { http } from "../http";
 
+//Product data
 export interface ProductData {
   ar_codart: string;
   ar_descr: string;
@@ -25,6 +26,20 @@ export interface ProductData {
   ar_isComposed: boolean;
 }
 
+//related data (distinta base)
+export interface RelatedDataDetail {
+  ar_codart: string;
+  ar_descr: string;
+  ar_price: number;
+}
+
+//related data (distinta base)
+export interface RelatedData {
+  product: ProductData;
+  articoRelated: RelatedDataDetail[];
+}
+
+//Get all products
 export const getProductsAsync = async (): Promise<ProductData[]> => {
   const result = await http<ProductData[]>({
     path: "/products/getDemoProducts",
@@ -36,6 +51,21 @@ export const getProductsAsync = async (): Promise<ProductData[]> => {
   }
 };
 
+//Get only related
+export const getProductComposedDetailAsync = async (
+  ar_codart: string
+): Promise<RelatedDataDetail[]> => {
+  const result = await http<RelatedData>({
+    path: "/products/getdetail?codart=" + ar_codart.trim(),
+  });
+  if (result.ok && result.body) {
+    return result.body.articoRelated;
+  } else {
+    return [];
+  }
+};
+
+//all product data from server
 export interface ProductDataFromServer {
   ar_codart: string;
   ar_descr: string;
@@ -61,6 +91,7 @@ export interface ProductDataFromServer {
   ar_isComposed: boolean;
 }
 
+//map products from server response
 export const mapProductFromServer = (
   products: ProductDataFromServer
 ): ProductData => ({

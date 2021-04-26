@@ -2,7 +2,7 @@ import { Store, createStore, combineReducers } from "redux";
 import { ProductData } from "./ProductData";
 import { CustomerData } from "./CustomerData";
 import { OrderData } from "./OrderData";
-import { UserData } from "./Userdata";
+import { UserInfo } from "./UserInfo";
 
 //General State
 interface GeneralState {
@@ -14,7 +14,8 @@ interface GeneralState {
   readonly currentProductsGridTotalWithVat: number; //total grid with vat
   readonly selectedProduct: ProductData | null; //selected value from modal grid
   readonly selectedCustomer: CustomerData | null; //select customer from modal grid
-  readonly loggedUser: UserData | null; //not used
+  readonly isAutenticad: boolean; //not used
+  readonly UserInfo: UserInfo | null; //not used
   readonly enableProductGrid: boolean; //not used
   readonly products: ProductData[]; //not used
   readonly customers: CustomerData[]; //not used
@@ -35,7 +36,8 @@ const initialGeneralState: GeneralState = {
   enableProductGrid: false,
   currentProductsGridTotal: 0,
   currentProductsGridTotalWithVat: 0,
-  loggedUser: null,
+  isAutenticad: false,
+  UserInfo: null,
 };
 
 //AppState
@@ -81,11 +83,24 @@ export const gettingCustomerAction = () =>
     type: GETTINGCUSTOMER,
   } as const);
 
-//Got product
+//Got customer
 export const GOTCUSTOMER = "GotCustomer";
 export const gotCustomerAction = (customer: CustomerData | null) =>
   ({
     type: GOTCUSTOMER,
+    customer: customer,
+    showModalCustomer: false,
+  } as const);
+
+//GOT ORDER
+export const GOTORDER = "GotOrder";
+export const gotOrderAction = (
+  order: OrderData,
+  customer: CustomerData | null
+) =>
+  ({
+    type: GOTORDER,
+    order: order,
     customer: customer,
     showModalCustomer: false,
   } as const);
@@ -97,6 +112,7 @@ export const getShowModalProductAction = () =>
     type: GETMODALPRODUCT,
   } as const);
 
+//GOT MODAL PRODUCT
 export const GOTMODALPRODUCT = "GotModalProduction";
 export const gotShowModalProductAction = (status: boolean) =>
   ({
@@ -180,6 +196,7 @@ type ZmagActions =
   | ReturnType<typeof gottingCurrentProductsGridAction>
   | ReturnType<typeof gottingCurrentTotalsGridAction>
   | ReturnType<typeof gottingDeleteProductGridAction>
+  | ReturnType<typeof gotOrderAction>
   | ReturnType<typeof gotShowModalCustomerAction>;
 
 //Reducer
@@ -297,6 +314,14 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
         currentProductsGrid: action.product,
         currentProductsGridTotal: newTotal,
         currentProductsGridTotalWithVat: newTotalWithVat,
+      };
+    }
+    case GOTORDER: {
+      //sistemare
+      return {
+        ...state,
+        currentOrder: action.order,
+        customer: action.customer,
       };
     }
   }
