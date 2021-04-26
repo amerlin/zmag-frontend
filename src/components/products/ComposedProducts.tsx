@@ -4,6 +4,7 @@ import {
   RelatedDataDetail,
 } from "../../Data/ProductData";
 import { useState } from "react";
+import { Spinner } from "react-bootstrap";
 
 interface Props {
   ar_codart: string;
@@ -24,12 +25,15 @@ export const ComposedProducts = (props: Props) => {
   }, []);
 
   return (
-    <ul>
-      {relateds.map((item) => (
-        <li>
-          {item.ar_codart} - {item.ar_descr} - {item.ar_price} €
-        </li>
-      ))}
-    </ul>
+    <div>
+      <Spinner animation="border" size="sm" />
+      <ul>
+        {relateds.map((item) => (
+          <li>
+            {item.ar_codart} - {item.ar_descr} - {item.ar_price} €
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };

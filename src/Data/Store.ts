@@ -17,8 +17,6 @@ interface GeneralState {
   readonly isAutenticad: boolean; //not used
   readonly UserInfo: UserInfo | null; //not used
   readonly enableProductGrid: boolean; //not used
-  readonly products: ProductData[]; //not used
-  readonly customers: CustomerData[]; //not used
   readonly currentOrder: OrderData | null; //not used
 }
 
@@ -27,8 +25,6 @@ const initialGeneralState: GeneralState = {
   showLoading: false,
   currentProductsGrid: [],
   currentOrder: null,
-  products: [],
-  customers: [],
   selectedProduct: null,
   selectedCustomer: null,
   showModalProduct: false,
