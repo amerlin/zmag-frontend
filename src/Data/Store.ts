@@ -2,39 +2,41 @@ import { Store, createStore, combineReducers } from "redux";
 import { ProductData } from "./ProductData";
 import { CustomerData } from "./CustomerData";
 import { OrderData } from "./OrderData";
-import { UserInfo } from "./UserInfo";
+import { OrderProductRow } from "./OrderProductRow";
 
 //General State
 interface GeneralState {
   readonly showLoading: boolean; //loading
   readonly showModalProduct: boolean; //modal product is visibile
   readonly showModalCustomer: boolean; //modal customer is visible
-  readonly currentProductsGrid: ProductData[]; //current grid
-  readonly currentProductsGridTotal: number; //total grid
-  readonly currentProductsGridTotalWithVat: number; //total grid with vat
   readonly selectedProduct: ProductData | null; //selected value from modal grid
   readonly selectedCustomer: CustomerData | null; //select customer from modal grid
-  readonly isAutenticad: boolean; //not used
-  readonly UserInfo: UserInfo | null; //not used
-  readonly enableProductGrid: boolean; //not used
-  readonly currentOrder: OrderData | null; //not used
+  readonly currentOrder: OrderData;
 }
 
 //initial configuration
 const initialGeneralState: GeneralState = {
   showLoading: false,
-  currentProductsGrid: [],
-  currentOrder: null,
+  currentOrder: createEmptyOrderData(),
   selectedProduct: null,
   selectedCustomer: null,
   showModalProduct: false,
   showModalCustomer: false,
-  enableProductGrid: false,
-  currentProductsGridTotal: 0,
-  currentProductsGridTotalWithVat: 0,
-  isAutenticad: false,
-  UserInfo: null,
 };
+
+//create empty order
+function createEmptyOrderData(): OrderData {
+  var newOrder: OrderData = {
+    id: 0,
+    year: 0,
+    productsRow: [],
+    customer: null,
+    total: 0,
+    totalWithVat: 0,
+    note: "",
+  };
+  return newOrder;
+}
 
 //AppState
 export interface AppState {
@@ -108,14 +110,14 @@ export const gotOrderAction = (
     showModalCustomer: false,
   } as const);
 
-//MODAL PRODUCT STATE
+//GET PRODUCT MODAL STATE
 export const GETMODALPRODUCT = "GetModalProduction";
 export const getShowModalProductAction = () =>
   ({
     type: GETMODALPRODUCT,
   } as const);
 
-//GOT MODAL PRODUCT
+//SET PRODUCT MODAL STATE
 export const GOTMODALPRODUCT = "GotModalProduction";
 export const gotShowModalProductAction = (status: boolean) =>
   ({
@@ -123,13 +125,14 @@ export const gotShowModalProductAction = (status: boolean) =>
     showModalProduct: status,
   } as const);
 
-//MODAL CUSTOMER
+//SET CUSTOMER MODAL STATUS
 export const GETMODALCUSTOMER = "GetModalCustomer";
 export const getShowModalCustomerAction = (status: boolean) =>
   ({
     type: GETMODALCUSTOMER,
   } as const);
 
+//GET CUSTOMER MODAL STATUS
 export const GOTMODALCUSTOMER = "GotModalCustomer";
 export const gotShowModalCustomerAction = (status: boolean) =>
   ({
@@ -137,24 +140,23 @@ export const gotShowModalCustomerAction = (status: boolean) =>
     showModalCustomer: status,
   } as const);
 
-//CURRENT PRODUCTS GRID
-export const GETCURRENTPRODUCTSGRID = "GetCurrentProductsGrid";
-export const gettingCurrentProductsGridAction = () =>
+//GET CURRENT ORDER
+export const GETFULLORDER = "GetCurrentOrderWithGrid";
+export const gettingCurrentOrderWithGridAction = () =>
   ({
-    type: GETCURRENTPRODUCTSGRID,
+    type: GETFULLORDER,
   } as const);
 
-//CURRENT PRODUCTS IN GRID
-export const GOTCURRENTPRODUCTSGRID = "GotCurrentProductsGrid";
-export const gottingCurrentProductsGridAction = (
-  product: ProductData[] | null
-) =>
+//ADD NEW PRODUCT IN GRID (UPDATE TOTAL DOC AND TOTAL DOC WITH VAT)
+export const GOTCURRENTFULLORDER = "GotCurrentOrderWithGrid";
+export const gottingCurrentOrderWithGridAction = (currentOrder: OrderData) =>
   ({
-    type: GOTCURRENTPRODUCTSGRID,
-    product: product,
+    type: GOTCURRENTFULLORDER,
+    currentOrder: currentOrder,
   } as const);
 
 //GOT TOTAL GRID (EURO)
+//Questa parte di codice deve essere modificata
 export const GOTORDERTOTAL = "GotCurrentTotalsGrid";
 export const gottingCurrentTotalsGridAction = (
   total: number,
@@ -164,8 +166,8 @@ export const gottingCurrentTotalsGridAction = (
 ) =>
   ({
     type: GOTORDERTOTAL,
-    currentProductsGridTotal: total,
-    currentProductsGridTotalWithVat: totalWithVat,
+    total: total,
+    totalWithVat: totalWithVat,
     oldTotal: oldTotal,
     oldTotalWithVat: oldTotalWithVat,
   } as const);
@@ -173,36 +175,35 @@ export const gottingCurrentTotalsGridAction = (
 //DELETE ELEMENT IN GRID
 export const GOTDELETEPRODUCTSGRID = "GotDeleteProductGrid";
 export const gottingDeleteProductGridAction = (
-  product: ProductData,
+  products: OrderProductRow[],
   total: number,
   totalWithVat: number
 ) =>
   ({
     type: GOTDELETEPRODUCTSGRID,
-    product: product,
+    products: products,
     total: total,
     totalWithVat: totalWithVat,
   } as const);
 
 //Action type
 type ZmagActions =
-  | ReturnType<typeof gettingProductsAction>
+  | ReturnType<typeof gettingProductsAction> //products
   | ReturnType<typeof gotProductsAction>
-  | ReturnType<typeof gettingProductAction>
+  | ReturnType<typeof gettingProductAction> //product
   | ReturnType<typeof gotProductAction>
-  | ReturnType<typeof getShowModalProductAction>
+  | ReturnType<typeof getShowModalProductAction> //modal
   | ReturnType<typeof gotShowModalProductAction>
   | ReturnType<typeof getShowModalCustomerAction>
-  | ReturnType<typeof gotCustomerAction>
+  | ReturnType<typeof gotShowModalCustomerAction>
+  | ReturnType<typeof gotCustomerAction> //customer
   | ReturnType<typeof gettingCustomerAction>
-  | ReturnType<typeof gettingCurrentProductsGridAction>
-  | ReturnType<typeof gottingCurrentProductsGridAction>
-  | ReturnType<typeof gottingCurrentTotalsGridAction>
+  | ReturnType<typeof gettingCurrentOrderWithGridAction> //order
+  | ReturnType<typeof gottingCurrentOrderWithGridAction>
   | ReturnType<typeof gottingDeleteProductGridAction>
   | ReturnType<typeof gotOrderAction>
-  | ReturnType<typeof gettingOrderAction>
-  | ReturnType<typeof gotShowModalCustomerAction>;
-
+  | ReturnType<typeof gottingCurrentTotalsGridAction>
+  | ReturnType<typeof gettingOrderAction>;
 //Reducer
 const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
   switch (action.type) {
@@ -271,54 +272,39 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
       };
     }
 
-    case GOTCURRENTPRODUCTSGRID: {
-      //questa parte deve essere spostata nella logica
-      action.product.ar_quant = 1;
-      action.product.ar_total = 1 * action.product.ar_price;
-      action.product.ar_totalWithVat =
-        1 * action.product.ar_price +
-        (1 * action.product.ar_price * action.product.ar_ivaperc) / 100;
-      var total = state.currentProductsGridTotal + action.product.ar_total;
-      var totalWithVat =
-        state.currentProductsGridTotalWithVat + action.product.ar_totalWithVat;
+    //UPDATE CURRENT ORDER (CUSTOMER + GRID)
+    case GOTCURRENTFULLORDER: {
+      console.log(action.currentOrder);
       return {
         ...state,
-        currentProductsGrid: [...state.currentProductsGrid, action.product],
-        currentProductsGridTotal: total,
-        currentProductsGridTotalWithVat: totalWithVat,
+        currentOrder: action.currentOrder,
       };
     }
-    case GETCURRENTPRODUCTSGRID: {
+
+    //GET CURRENT ORDER (CUSTOMER + GRID)
+    case GETFULLORDER: {
       return {
         ...state,
       };
     }
+
+    //GOT TOTAL CURRENT ORDER
     case GOTORDERTOTAL: {
-      var newTotal =
-        state.currentProductsGridTotal -
-        action.oldTotal +
-        action.currentProductsGridTotal;
-
-      var newTotalWithVat =
-        state.currentProductsGridTotalWithVat -
-        action.oldTotalWithVat +
-        action.currentProductsGridTotalWithVat;
-
+      state.currentOrder.total = action.total;
+      state.currentOrder.totalWithVat = action.totalWithVat;
       return {
         ...state,
-        currentProductsGridTotal: newTotal,
-        currentProductsGridTotalWithVat: newTotalWithVat,
       };
     }
+
+    //DELETE PRODUCT
     case GOTDELETEPRODUCTSGRID: {
-      newTotal = state.currentProductsGridTotal - action.total;
-      newTotalWithVat =
-        state.currentProductsGridTotalWithVat - action.totalWithVat;
+      state.currentOrder.total = state.currentOrder.total - action.total;
+      state.currentOrder.totalWithVat =
+        state.currentOrder.totalWithVat - action.totalWithVat;
+      state.currentOrder.productsRow = action.products;
       return {
         ...state,
-        currentProductsGrid: action.product,
-        currentProductsGridTotal: newTotal,
-        currentProductsGridTotalWithVat: newTotalWithVat,
       };
     }
     case GETTINGORDER: {
@@ -326,6 +312,7 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
         ...state,
       };
     }
+
     case GOTORDER: {
       return {
         ...state,

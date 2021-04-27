@@ -12,21 +12,33 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 export const OrderGrid = () => {
   const dispatch = useDispatch();
 
+  const currentOrder = useSelector((state: AppState) => {
+    return state.zmagState.currentOrder;
+  });
+
+  //products
   const products = useSelector((state: AppState) => {
-    return state.zmagState.currentProductsGrid;
+    return state.zmagState.currentOrder.productsRow;
   });
 
+  //total order doc
   const totalDoc = useSelector((state: AppState) => {
-    return priceFormatter(state.zmagState.currentProductsGridTotal, 0);
+    return priceFormatter(state.zmagState.currentOrder.total, 0);
   });
 
+  //total order doc
   const totalDocWithIva = useSelector((state: AppState) => {
-    return priceFormatter(state.zmagState.currentProductsGridTotalWithVat, 0);
+    return priceFormatter(state.zmagState.currentOrder.totalWithVat, 0);
   });
 
+  //utility
   function priceFormatter(cell, row) {
     return cell.toLocaleString("it-IT", { minimumFractionDigits: 2 });
   }
+
+  const confirmOrder = () => {
+    console.log(currentOrder);
+  };
 
   const columns = [
     {
@@ -143,7 +155,9 @@ export const OrderGrid = () => {
         <div className="col-md-2"></div>
         <div className="col-md-4 text-center">
           <Button variant="primary">Annulla</Button>{" "}
-          <Button variant="primary">Conferma</Button>
+          <Button variant="primary" onClick={() => confirmOrder()}>
+            Conferma
+          </Button>
         </div>
         <div className="col-md-4"></div>
         <div className="col-md-2"></div>

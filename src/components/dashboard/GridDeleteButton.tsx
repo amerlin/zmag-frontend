@@ -11,21 +11,20 @@ interface Props {
 export const GridDeleteButton = (props: Props) => {
   const dispatch = useDispatch();
   const products = useSelector((state: AppState) => {
-    return state.zmagState.currentProductsGrid;
+    return state.zmagState.currentOrder.productsRow;
   });
 
-  const deleteElement = (ar_codart) => {
+  const deleteElement = (ar_codart: string) => {
     var ar_total = 0;
     var ar_totalWithVat = 0;
-    var updated = products.filter(function (value) {
-      if (value.ar_codart === ar_codart) {
-        ar_totalWithVat = value.ar_totalWithVat;
-        ar_total = value.ar_total;
-        ar_total = value.ar_total;
+    for (var i = 0; i < products.length; i++) {
+      var row = products[i];
+      if (row.ar_codart === ar_codart) {
+        ar_total = row.ar_total;
+        ar_totalWithVat = row.ar_totalWithVat;
       }
-      if (value.ar_codart !== ar_codart) return value;
-      return value;
-    });
+    }
+    var updated = products.filter((item) => item.ar_codart !== ar_codart);
     dispatch(
       gottingDeleteProductGridAction(updated, ar_total, ar_totalWithVat)
     );
