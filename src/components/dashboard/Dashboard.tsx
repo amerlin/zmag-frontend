@@ -6,7 +6,6 @@ import CustomerArea from "./CustomerArea";
 import CustomerGrid from "../customers/CustomersGrid";
 import OrderGrid from "./OrderGrid";
 import { OrderData } from "../../Data/OrderData";
-
 import { useSelector, useDispatch } from "react-redux";
 import {
   AppState,
@@ -75,23 +74,19 @@ const DashBoard = () => {
       <p> Ambiente: {process.env.REACT_APP_ENV || "dev"}</p>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-12">
             <Button variant="primary" onClick={() => CreateCurrentOrder()}>
               Crea Nuovo Ordine
-            </Button>
-          </div>
-          <div className="col-md-4">
-            <Button variant="primary" onClick={() => DeleteCurrentOrder()}>
-              Annulla Ordine
-            </Button>
-          </div>
-          <div className="col-md-4">
+            </Button>{" "}
             <Button
               variant="primary"
               onClick={() => SetShowCustomerModal(true)}
             >
               Ricerca Cliente
-            </Button>
+            </Button>{" "}
+            <Button variant="primary" onClick={() => DeleteCurrentOrder()}>
+              Annulla Ordine
+            </Button>{" "}
           </div>
         </div>
         <div></div>

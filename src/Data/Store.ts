@@ -9,9 +9,10 @@ interface GeneralState {
   readonly showLoading: boolean; //loading
   readonly showModalProduct: boolean; //modal product is visibile
   readonly showModalCustomer: boolean; //modal customer is visible
-  readonly selectedProduct: ProductData | null; //selected value from modal grid
-  readonly selectedCustomer: CustomerData | null; //select customer from modal grid
-  readonly currentOrder: OrderData;
+  readonly selectedProduct: ProductData | null; //selected value from modal grid to grid
+  readonly selectedCustomer: CustomerData | null; //select customer from modal grid to grid
+  readonly currentOrder: OrderData; //current order
+  readonly isNewOrder: boolean; //is new order
 }
 
 //initial configuration
@@ -22,6 +23,7 @@ const initialGeneralState: GeneralState = {
   selectedCustomer: null,
   showModalProduct: false,
   showModalCustomer: false,
+  isNewOrder: false,
 };
 
 //create empty order
@@ -290,8 +292,11 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
 
     //GOT TOTAL CURRENT ORDER
     case GOTORDERTOTAL: {
-      state.currentOrder.total = action.total;
-      state.currentOrder.totalWithVat = action.totalWithVat;
+      state.currentOrder.total = state.currentOrder.total - action.oldTotal;
+      state.currentOrder.totalWithVat =
+        state.currentOrder.totalWithVat - action.oldTotalWithVat;
+      state.currentOrder.total += action.total;
+      state.currentOrder.totalWithVat += action.totalWithVat;
       return {
         ...state,
       };

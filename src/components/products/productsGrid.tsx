@@ -7,6 +7,7 @@ import { Spinner } from "react-bootstrap";
 import { SelectProductGrid } from "./SelectButtonProductGrid";
 import { ComposedProducts } from "./ComposedProducts";
 import { useState } from "react";
+import { OrderProductRow } from "../../Data/OrderProductRow";
 
 export const ProductGrid = () => {
   const [products, setProducts] = React.useState<ProductData[]>([]);
@@ -88,7 +89,7 @@ export const ProductGrid = () => {
       isDummyField: true,
       text: "",
       editable: false,
-      formatter: (cellContent: string, row: ProductData) => {
+      formatter: (cellContent: string, row: OrderProductRow) => {
         return <SelectProductGrid row={row} />;
       },
     },

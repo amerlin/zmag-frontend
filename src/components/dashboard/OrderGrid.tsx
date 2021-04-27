@@ -66,7 +66,7 @@ export const OrderGrid = () => {
             message: "La quantità deve essere un numero maggiore di zero",
           };
         }
-        if (newValue == 0) {
+        if (newValue === 0) {
           return {
             valid: false,
             message: "La quantità non può essere 0.",
@@ -129,7 +129,6 @@ export const OrderGrid = () => {
       row: ProductData,
       column: number
     ) => {
-      console.log(row.ar_quant);
       if (row.ar_quant < 1) return;
       var oldTotal = row.ar_total;
       var oldTotalWithVat = row.ar_totalWithVat;
@@ -177,10 +176,10 @@ export const OrderGrid = () => {
       <div className="row">
         <div className="col-md-2"></div>
         <div className="col-md-4 text-center">
-          <Button variant="primary">Annulla</Button>{" "}
           <Button variant="primary" onClick={() => confirmOrder()}>
             Conferma
-          </Button>
+          </Button>{" "}
+          <Button variant="primary">Annulla</Button>
         </div>
         <div className="col-md-4"></div>
         <div className="col-md-2"></div>
