@@ -59,6 +59,27 @@ export const OrderGrid = () => {
         fontSize: "18px",
         width: "260px",
       },
+      validator: (newValue, row, column) => {
+        if (isNaN(newValue)) {
+          return {
+            valid: false,
+            message: "La quantità deve essere un numero maggiore di zero",
+          };
+        }
+        if (newValue == 0) {
+          return {
+            valid: false,
+            message: "La quantità non può essere 0.",
+          };
+        }
+        if (newValue < 1) {
+          return {
+            valid: false,
+            message: "La quantità non può essere negativa",
+          };
+        }
+        return true;
+      },
     },
     {
       dataField: "ar_sconto",
@@ -108,6 +129,8 @@ export const OrderGrid = () => {
       row: ProductData,
       column: number
     ) => {
+      console.log(row.ar_quant);
+      if (row.ar_quant < 1) return;
       var oldTotal = row.ar_total;
       var oldTotalWithVat = row.ar_totalWithVat;
       row.ar_total = row.ar_quant * row.ar_price;
