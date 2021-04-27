@@ -45,6 +45,21 @@ export interface AppState {
   readonly zmagState: GeneralState;
 }
 
+//Get inNewOder
+export const GETTINGNEWORDER = "GettingNewOrder";
+export const gettingNewOrderAction = () =>
+  ({
+    type: GETTINGNEWORDER,
+  } as const);
+
+//Got inNewOder
+export const GOTNEWORDER = "GotNewOrder";
+export const gotNewOrderAction = (isNewOrder: boolean) =>
+  ({
+    type: GOTNEWORDER,
+    isNewOrder: isNewOrder,
+  } as const);
+
 //Get products
 export const GETTINGPRODUCTS = "GettingProducts";
 export const gettingProductsAction = () =>
@@ -205,7 +220,9 @@ type ZmagActions =
   | ReturnType<typeof gottingDeleteProductGridAction>
   | ReturnType<typeof gotOrderAction>
   | ReturnType<typeof gottingCurrentTotalsGridAction>
-  | ReturnType<typeof gettingOrderAction>;
+  | ReturnType<typeof gettingOrderAction>
+  | ReturnType<typeof gotNewOrderAction>
+  | ReturnType<typeof gettingNewOrderAction>;
 
 //Reducer
 const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
@@ -277,7 +294,6 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
 
     //UPDATE CURRENT ORDER (CUSTOMER + GRID)
     case GOTCURRENTFULLORDER: {
-      console.log(action.currentOrder);
       return {
         ...state,
         currentOrder: action.currentOrder,
@@ -313,12 +329,15 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
         ...state,
       };
     }
+
+    //get order
     case GETTINGORDER: {
       return {
         ...state,
       };
     }
 
+    //got order
     case GOTORDER: {
       return {
         ...state,
@@ -327,6 +346,20 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
         showModalCustomer: false,
       };
     }
+
+    case GETTINGNEWORDER: {
+      return {
+        ...state,
+      };
+    }
+
+    case GOTNEWORDER: {
+      return {
+        ...state,
+        isNewOrder: action.isNewOrder,
+      };
+    }
+
     default:
       return state;
   }

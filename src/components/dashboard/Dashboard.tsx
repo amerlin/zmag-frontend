@@ -34,6 +34,11 @@ const DashBoard = () => {
     (state: AppState) => state.zmagState.showModalCustomer
   );
 
+  //get enable search button
+  const enableSearchButton = useSelector(
+    (state: AppState) => state.zmagState.isNewOrder
+  );
+
   //set customersSelected boolean value
   const customersSelected = useSelector((state: AppState) => {
     var customer = state.zmagState.selectedCustomer;
