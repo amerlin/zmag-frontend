@@ -333,7 +333,7 @@ const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
 };
 
 //root creation
-const rootReducer = combineReducers<AppState>({
+const rootReducer = combineReducers({
   zmagState: ZmagReducer,
 });
 
