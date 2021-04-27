@@ -206,6 +206,7 @@ type ZmagActions =
   | ReturnType<typeof gotOrderAction>
   | ReturnType<typeof gottingCurrentTotalsGridAction>
   | ReturnType<typeof gettingOrderAction>;
+
 //Reducer
 const ZmagReducer = (state = initialGeneralState, action: ZmagActions) => {
   switch (action.type) {
