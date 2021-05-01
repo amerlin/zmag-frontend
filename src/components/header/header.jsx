@@ -11,7 +11,10 @@ const Header = () => {
         textAlign: "center",
       }}
     >
-      <img src="https://www.zella.it/images/thumbs/0000112.png" alt="Logo" />
+      <img
+        src="https://amerlin.keantex.com/wp-content/uploads/2021/05/0000112_neutro.png"
+        alt="Logo"
+      />
     </header>
   );
 };
