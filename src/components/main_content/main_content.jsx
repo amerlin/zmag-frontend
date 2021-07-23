@@ -5,8 +5,8 @@ import { Routes, Route } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import Customers from "../customers/Customers";
 import Products from "../products/Products";
+import Catalog from "../catalog/catalog";
 import Orders from "../orders/orders";
-import Catalog from "../catalog/Catalog";
 
 const MainContent = () => {
   return (
